@@ -4,7 +4,7 @@ export default function Layout() {
   return (
     <div className="h-screen flex flex-col">
       {/* Navbar */}
-      <nav className="bg-gray-800 text-white p-4">
+      <nav className=" text-white p-4">
         <div className="container mx-auto flex justify-between">
           <Link to="/" className="text-lg font-bold">
             Home
