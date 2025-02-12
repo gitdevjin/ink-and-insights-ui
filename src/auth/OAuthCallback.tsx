@@ -1,27 +1,31 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../hooks/use-user";
 
-export default function OAuthCallback() {
+const OAuthCallback = () => {
+  const { login } = useUser();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.hash.replace("#", "?"));
-    const accessToken = params.get("access_token");
+    const code = params.get("access_token");
 
-    if (accessToken) {
-      // Send the token to your backend for validation or use it directly
-      fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("User Data:", data);
-          // Now you can use the data to log the user in or save to your backend
+    if (code) {
+      login(code)
+        .then(() => {
+          navigate("/"); // Redirect to home after login
         })
         .catch((error) => {
-          console.log("Error fetching user data:", error);
+          console.error("Login failed:", error);
+          navigate("/"); // Redirect to login page on failure
         });
+    } else {
+      console.error("No authorization code found in URL");
+      navigate("/");
     }
-  }, []);
+  }, [login, navigate]);
 
   return <div>Redirecting...</div>;
-}
+};
+
+export default OAuthCallback;
