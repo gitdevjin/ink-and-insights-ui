@@ -20,7 +20,7 @@ const OAuthCallback = () => {
           navigate("/"); // Redirect to login page on failure
         });
     } else {
-      console.error("No authorization code found in URL");
+      console.log("No authorization code found in URL");
       navigate("/");
     }
   }, [login, navigate]);

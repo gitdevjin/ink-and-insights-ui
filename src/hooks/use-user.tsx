@@ -5,6 +5,13 @@ import {
   useState,
   ReactNode,
 } from "react";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  email: string;
+  name: string;
+  exp: number;
+}
 
 // Define the user type based on the data you're getting from the backend
 interface User {
@@ -16,7 +23,6 @@ interface User {
 // Define the context value type
 interface UserContextType {
   user: User | null;
-  setUser: (user: User | null) => void;
   login: (token: string) => Promise<void>;
   logout: () => void;
 }
@@ -29,80 +35,77 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [user, setUser] = useState<User | null>(
-    localStorage.getItem("user")
-      ? JSON.parse(localStorage.getItem("user") as string)
-      : null
-  );
-  const [token, setToken] = useState<string | null>(
-    localStorage.getItem("jwt")
+  const [user, setUser] = useState<User | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem("accessToken")
   );
 
-  // Step 1: On mount, fetch user details if a token exists
   useEffect(() => {
-    if (token) {
-      fetchUserInfo(token);
-    }
-  }, [token]);
-
-  // Step 2: Function to exchange a login code for a token
-  const login = async (code: string) => {
-    try {
-      const response = await fetch("http://localhost:8080/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }), // Send the Google Auth code
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("jwt", data.token);
-        setToken(data.token); // Updates token state
-        localStorage.setItem("user", JSON.stringify(data.user));
-        setUser(data.user);
-        console.log(data.user);
-      } else {
-        console.error("Failed to log in");
+    if (accessToken) {
+      const decoded = jwtDecode<JwtPayload>(accessToken);
+      if (decoded.exp * 1000 < Date.now()) {
+        refreshAccessToken();
+      } else if (!user) {
+        setUser({ email: decoded.email, name: decoded.name });
       }
-    } catch (error) {
-      console.error("Error during login:", error);
     }
-  };
+  }, [accessToken]);
 
-  // Step 3: Fetch user details with token
-  const fetchUserInfo = async (token: string) => {
-    try {
-      const response = await fetch("http://localhost:8080/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user); // Set user details in state
-      } else {
-        console.error("Failed to fetch user details");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
-
-  // Step 4: Logout function
   const logout = () => {
-    localStorage.removeItem("jwt");
-    localStorage.removeItem("user");
+    fetch("http://localhost:8080/api/auth/google/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    localStorage.removeItem("accessToken");
+    setAccessToken(null);
     setUser(null);
-    setToken(null);
+  };
+
+  const refreshAccessToken = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8080/api/auth/google/refresh",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) throw new Error("Refresh failed");
+
+      const data = await response.json();
+      localStorage.setItem("accessToken", data.accessToken);
+      setAccessToken(data.accessToken);
+
+      const decoded = jwtDecode<JwtPayload>(data.accessToken);
+      setUser({ email: decoded.email, name: decoded.name });
+    } catch {
+      logout();
+    }
+  };
+
+  const login = async (googleAccessToken: string) => {
+    const response = await fetch(
+      "http://localhost:8080/api/auth/google/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ googleAccessToken }),
+      }
+    );
+
+    if (!response.ok) throw new Error("Login failed");
+
+    const data = await response.json();
+    localStorage.setItem("accessToken", data.accessToken);
+    setAccessToken(data.accessToken);
+
+    const decoded = jwtDecode<JwtPayload>(data.accessToken);
+    setUser({ email: decoded.email, name: decoded.name });
   };
 
   return (
-    <userContext.Provider value={{ user, setUser, login, logout }}>
+    <userContext.Provider value={{ user, login, logout }}>
       {children}
     </userContext.Provider>
   );
