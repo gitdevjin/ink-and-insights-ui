@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
@@ -36,30 +30,7 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  const [accessToken, setAccessToken] = useState<string | null>(
-    localStorage.getItem("accessToken")
-  );
-
-  useEffect(() => {
-    if (accessToken) {
-      const decoded = jwtDecode<JwtPayload>(accessToken);
-      if (decoded.exp * 1000 < Date.now()) {
-        refreshAccessToken();
-      } else if (!user) {
-        setUser({ email: decoded.email, name: decoded.name });
-      }
-    }
-  }, [accessToken]);
-
-  const logout = () => {
-    fetch("http://localhost:8080/api/auth/google/logout", {
-      method: "POST",
-      credentials: "include",
-    });
-    localStorage.removeItem("accessToken");
-    setAccessToken(null);
-    setUser(null);
-  };
+  let accessToken = localStorage.getItem("accessToken");
 
   const refreshAccessToken = async () => {
     try {
@@ -75,13 +46,32 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
       const data = await response.json();
       localStorage.setItem("accessToken", data.accessToken);
-      setAccessToken(data.accessToken);
+      accessToken = localStorage.getItem("accessToken");
 
       const decoded = jwtDecode<JwtPayload>(data.accessToken);
       setUser({ email: decoded.email, name: decoded.name });
     } catch {
       logout();
     }
+  };
+
+  if (accessToken) {
+    const decoded = jwtDecode<JwtPayload>(accessToken);
+    if (decoded.exp * 1000 < Date.now()) {
+      refreshAccessToken();
+    } else if (!user) {
+      setUser({ email: decoded.email, name: decoded.name });
+    }
+  }
+
+  const logout = () => {
+    fetch("http://localhost:8080/api/auth/google/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    localStorage.removeItem("accessToken");
+    accessToken = localStorage.getItem("accessToken");
+    setUser(null);
   };
 
   const login = async (googleAccessToken: string) => {
@@ -98,7 +88,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const data = await response.json();
     localStorage.setItem("accessToken", data.accessToken);
-    setAccessToken(data.accessToken);
+    accessToken = localStorage.getItem("accessToken");
 
     const decoded = jwtDecode<JwtPayload>(data.accessToken);
     setUser({ email: decoded.email, name: decoded.name });
