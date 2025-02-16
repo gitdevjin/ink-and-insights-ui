@@ -17,7 +17,17 @@ export default function Home() {
       >
         Login
       </div>
-      <div onClick={logout}>Logout</div>
+      <div
+        onClick={logout}
+        style={{
+          cursor: "pointer",
+          padding: "10px",
+          background: "green",
+          color: "white",
+        }}
+      >
+        Logout
+      </div>
     </div>
   );
 }

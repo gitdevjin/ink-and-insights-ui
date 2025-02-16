@@ -30,7 +30,9 @@ interface UserProviderProps {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
-  let accessToken = localStorage.getItem("accessToken");
+  const [accessToken, setAccessToken] = useState<string | null>(
+    localStorage.getItem("accessToken")
+  );
 
   const refreshAccessToken = async () => {
     try {
@@ -46,11 +48,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
       const data = await response.json();
       localStorage.setItem("accessToken", data.accessToken);
-      accessToken = localStorage.getItem("accessToken");
+      setAccessToken(data.accessToken);
 
       const decoded = jwtDecode<JwtPayload>(data.accessToken);
       setUser({ email: decoded.email, name: decoded.name });
-    } catch {
+    } catch (err) {
+      console.log(err);
       logout();
     }
   };
@@ -70,7 +73,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       credentials: "include",
     });
     localStorage.removeItem("accessToken");
-    accessToken = localStorage.getItem("accessToken");
+    setAccessToken(null);
     setUser(null);
   };
 
@@ -80,6 +83,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ googleAccessToken }),
       }
     );
@@ -88,7 +92,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 
     const data = await response.json();
     localStorage.setItem("accessToken", data.accessToken);
-    accessToken = localStorage.getItem("accessToken");
+    setAccessToken(data.access_token);
 
     const decoded = jwtDecode<JwtPayload>(data.accessToken);
     setUser({ email: decoded.email, name: decoded.name });

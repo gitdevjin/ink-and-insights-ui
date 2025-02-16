@@ -8,10 +8,10 @@ const OAuthCallback = () => {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.hash.replace("#", "?"));
-    const code = params.get("access_token");
+    const googleToken = params.get("access_token");
 
-    if (code) {
-      login(code)
+    if (googleToken) {
+      login(googleToken)
         .then(() => {
           navigate("/"); // Redirect to home after login
         })
@@ -23,7 +23,7 @@ const OAuthCallback = () => {
       console.log("No authorization code found in URL");
       navigate("/");
     }
-  }, [login, navigate]);
+  }, [navigate]);
 
   return <div>Redirecting...</div>;
 };
