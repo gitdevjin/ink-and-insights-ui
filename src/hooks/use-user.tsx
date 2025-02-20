@@ -2,14 +2,14 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { jwtDecode } from "jwt-decode";
 
 interface JwtPayload {
-  email: string;
+  userId: string;
   name: string;
   exp: number;
 }
 
 // Define the user type based on the data you're getting from the backend
 interface User {
-  email: string;
+  userId: string;
   name: string;
   // Add any other fields from the user object as needed
 }
@@ -51,7 +51,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
       setAccessToken(data.accessToken);
 
       const decoded = jwtDecode<JwtPayload>(data.accessToken);
-      setUser({ email: decoded.email, name: decoded.name });
+      setUser({ userId: decoded.userId, name: decoded.name });
     } catch (err) {
       console.log(err);
       logout();
@@ -63,7 +63,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     if (decoded.exp * 1000 < Date.now()) {
       refreshAccessToken();
     } else if (!user) {
-      setUser({ email: decoded.email, name: decoded.name });
+      setUser({ userId: decoded.userId, name: decoded.name });
     }
   }
 
@@ -95,7 +95,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     setAccessToken(data.access_token);
 
     const decoded = jwtDecode<JwtPayload>(data.accessToken);
-    setUser({ email: decoded.email, name: decoded.name });
+    setUser({ userId: decoded.userId, name: decoded.name });
   };
 
   return (
