@@ -37,7 +37,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   const refreshAccessToken = async () => {
     try {
       const response = await fetch(
-        "http://localhost:8080/api/auth/google/refresh",
+        "http://localhost:8080/auth/google/refresh",
         {
           method: "POST",
           credentials: "include",
@@ -68,7 +68,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   }
 
   const logout = () => {
-    fetch("http://localhost:8080/api/auth/google/logout", {
+    fetch("http://localhost:8080/auth/google/logout", {
       method: "POST",
       credentials: "include",
     });
@@ -78,15 +78,12 @@ export const UserProvider = ({ children }: UserProviderProps) => {
   };
 
   const login = async (googleAccessToken: string) => {
-    const response = await fetch(
-      "http://localhost:8080/api/auth/google/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ googleAccessToken }),
-      }
-    );
+    const response = await fetch("http://localhost:8080/auth/google/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ googleAccessToken }),
+    });
 
     if (!response.ok) throw new Error("Login failed");
 
