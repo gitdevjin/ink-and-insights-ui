@@ -12,6 +12,9 @@ export default function Layout() {
           <Link to="/about" className="text-lg">
             About
           </Link>
+          <Link to="/post" className="text-lg">
+            Post
+          </Link>
         </div>
       </nav>
 
