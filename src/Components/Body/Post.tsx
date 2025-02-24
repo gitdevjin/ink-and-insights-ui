@@ -80,6 +80,7 @@ const RichTextEditor: React.FC = () => {
     <div>
       <div className="toolbar">
         <button
+          className="w-30 border-0 rounded-4xl bg-amber-200"
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
         >
