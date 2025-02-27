@@ -3,8 +3,10 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 
-const RichTextEditor: React.FC = () => {
-  const [files, setFiles] = useState<File[]>([]);
+export default function RichTextEditor() {
+  const [fileMappings, setFileMappings] = useState<
+    { blobUrl: string; file: File }[]
+  >([]);
 
   // Configure TipTap editor
   const editor = useEditor({
@@ -31,7 +33,7 @@ const RichTextEditor: React.FC = () => {
       if (file && editor) {
         const blobUrl = URL.createObjectURL(file);
         editor.chain().focus().setImage({ src: blobUrl }).run();
-        setFiles((prev) => [...prev, file]);
+        setFileMappings((prev) => [...prev, { blobUrl, file }]);
       }
     };
   }, [editor]);
@@ -44,31 +46,27 @@ const RichTextEditor: React.FC = () => {
     const formData = new FormData();
     formData.append("content", content);
 
-    console.log("Files to upload:", files.length);
-    files.forEach((file) => {
+    fileMappings.forEach(({ file, blobUrl }, index) => {
       formData.append("images", file);
+      formData.append(`blobMapping:${index}`, blobUrl); // Send Blob URL mapping
     });
 
-    // ✅ Debugging: Log formData entries
-    console.log("Logging FormData:");
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]); // Shows key-value pairs
+    // Debugging: Log formData entries
+    for (const [key, value] of formData.entries()) {
+      console.log("FormData entry:", key, value);
     }
+
     try {
       const response = await fetch("http://localhost:8080/post/test", {
         method: "POST", // Specify the HTTP method
         body: formData, // Send formData directly (no need for Content-Type)
       });
 
-      //console.log(formData);
-      //console.log(files);
-      //console.log(content);
-      //console.log(formData.getAll);
-      const data = await response.json();
-      console.log(data);
-      // editor.commands.clearContent();
+      const res = await response.json();
 
-      setFiles([]);
+      editor.commands.clearContent();
+      setFileMappings([]);
+      console.log("Post saved:", res.data);
     } catch (error) {
       console.error("Error saving post:", error);
     }
@@ -100,6 +98,4 @@ const RichTextEditor: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default RichTextEditor;
+}
