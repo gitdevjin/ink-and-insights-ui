@@ -9,11 +9,11 @@ export default function Layout() {
           <Link to="/" className="text-lg font-bold">
             Home
           </Link>
-          <Link to="/about" className="text-lg">
-            About
-          </Link>
           <Link to="/post" className="text-lg">
             Post
+          </Link>
+          <Link to="/about" className="text-lg">
+            About
           </Link>
         </div>
       </nav>
