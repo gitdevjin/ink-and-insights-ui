@@ -57,16 +57,20 @@ export default function RichTextEditor() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/post/test", {
+      const response = await fetch("http://localhost:8080/bookreview/post", {
         method: "POST", // Specify the HTTP method
         body: formData, // Send formData directly (no need for Content-Type)
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
 
       const res = await response.json();
 
       editor.commands.clearContent();
       setFileMappings([]);
-      console.log("Post saved:", res.data);
+      console.log("Post saved:");
+      console.log(res.message);
     } catch (error) {
       console.error("Error saving post:", error);
     }
