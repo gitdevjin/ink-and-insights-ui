@@ -4,6 +4,8 @@ import Home from "./Components/Body/Home";
 import About from "./Components/Body/About";
 import Post from "./Components/Body/Post";
 import OAuthCallback from "./auth/OAuthCallback";
+import BookReviewList from "./Components/BookReview/BookReviewList";
+import BookReviewOne from "./Components/BookReview/BookReviewOne";
 
 const routes: RouteObject[] = [
   // ✅ Explicitly typed array
@@ -15,6 +17,8 @@ const routes: RouteObject[] = [
       { path: "about", element: <About /> },
       { path: "post", element: <Post /> },
       { path: "oauthcallback", element: <OAuthCallback /> },
+      { path: "bookreview/:id", element: <BookReviewOne /> },
+      { path: "bookreviews", element: <BookReviewList /> },
     ],
   },
 ];

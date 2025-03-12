@@ -12,6 +12,9 @@ export default function Layout() {
           <Link to="/post" className="text-lg">
             Post
           </Link>
+          <Link to="/bookreviews" className="text-lg">
+            Book Reviews
+          </Link>
           <Link to="/about" className="text-lg">
             About
           </Link>

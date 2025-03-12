@@ -7,6 +7,7 @@ export default function RichTextEditor() {
   const [fileMappings, setFileMappings] = useState<
     { blobUrl: string; file: File }[]
   >([]);
+  const [title, setTitle] = useState("");
 
   // Configure TipTap editor
   const editor = useEditor({
@@ -44,7 +45,9 @@ export default function RichTextEditor() {
 
     const content = editor.getHTML();
     const formData = new FormData();
+    formData.append("title", title);
     formData.append("content", content);
+    formData.append("category", "bookreview"); // will be dynamically coded soon.
 
     fileMappings.forEach(({ file, blobUrl }, index) => {
       formData.append("images", file);
@@ -57,7 +60,7 @@ export default function RichTextEditor() {
     }
 
     try {
-      const response = await fetch("http://localhost:8080/bookreview/post", {
+      const response = await fetch("http://localhost:8080/post/write", {
         method: "POST", // Specify the HTTP method
         body: formData, // Send formData directly (no need for Content-Type)
         headers: {
@@ -80,6 +83,13 @@ export default function RichTextEditor() {
 
   return (
     <div>
+      <input
+        type="text"
+        placeholder="Enter title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className="border rounded p-2 w-full mb-2"
+      />
       <div className="toolbar">
         <button
           className="w-30 border-0 rounded-4xl bg-amber-200"
