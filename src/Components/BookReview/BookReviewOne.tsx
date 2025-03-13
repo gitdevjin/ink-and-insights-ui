@@ -63,7 +63,7 @@ export default function BookReviewOne() {
   if (!post) return <div>Post not found</div>;
   return (
     <div>
-      <h1>Post #{id}</h1>
+      <h1>{post.title}</h1>
       <EditorContent editor={editor} />
       <Link to="/">Back to List</Link>
     </div>
