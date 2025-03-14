@@ -18,6 +18,9 @@ export default function Layout() {
           <Link to="/about" className="text-lg">
             About
           </Link>
+          <Link to="/testeditor" className="text-lg">
+            test editor
+          </Link>
         </div>
       </nav>
 

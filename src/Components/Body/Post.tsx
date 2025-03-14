@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import { FaBold } from "react-icons/fa";
 
 export default function RichTextEditor() {
   const [fileMappings, setFileMappings] = useState<
@@ -96,7 +97,7 @@ export default function RichTextEditor() {
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
         >
-          Bold
+          <FaBold />
         </button>
         <button
           onClick={() => editor.chain().focus().toggleItalic().run()}
