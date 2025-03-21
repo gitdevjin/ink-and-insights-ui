@@ -48,6 +48,7 @@ export default function BookReviewList() {
               <Link to={`/bookreview/${post.id}`}>
                 {/* Show a truncated preview */}
                 <div>{post.title}</div>
+                <div>{post.id}</div>
                 <small>{new Date(post.createdAt).toLocaleString()}</small>
               </Link>
             </li>

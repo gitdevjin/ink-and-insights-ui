@@ -20,8 +20,8 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col">
-      <h1>Welcome, {user ? user?.name : "Guest"}</h1>
+    <div className="flex flex-col w-full">
+      <h4>Welcome, {user ? user?.name : "Guest"}</h4>
       <div
         onClick={handleLogin}
         style={{
@@ -55,6 +55,7 @@ export default function Home() {
       >
         AuthTest
       </div>
+      <div className="h-screen"></div>
     </div>
   );
 }

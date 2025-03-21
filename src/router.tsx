@@ -7,6 +7,7 @@ import OAuthCallback from "./auth/OAuthCallback";
 import BookReviewList from "./Components/BookReview/BookReviewList";
 import BookReviewOne from "./Components/BookReview/BookReviewOne";
 import TestEditor from "./Components/Body/TestEditor";
+import EditPost from "./Components/Body/EditPost";
 
 const routes: RouteObject[] = [
   // ✅ Explicitly typed array
@@ -21,6 +22,7 @@ const routes: RouteObject[] = [
       { path: "bookreview/:id", element: <BookReviewOne /> },
       { path: "bookreviews", element: <BookReviewList /> },
       { path: "testeditor", element: <TestEditor /> },
+      { path: "editpost/:id", element: <EditPost /> },
     ],
   },
 ];
