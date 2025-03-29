@@ -14,7 +14,7 @@ export default function DesktopLayout() {
       }`}
     >
       {/* Sidebar */}
-      <aside className="relative bg-gray-100 border-r border-gray-400 p-4 flex flex-col z-10 overflow-y-scroll overflow-x-hidden overscroll-contain">
+      <aside className="relative bg-gray-100 border-r border-gray-400 p-4 flex flex-col z-5 overflow-y-scroll overflow-x-hidden overscroll-contain">
         <div className="relative w-full">
           <div className={`${isSidebarOpen ? "block" : "hidden"}`}>
             <DesktopSideMenu />
@@ -33,7 +33,7 @@ export default function DesktopLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="p-4 h-full overflow-y-auto overflow-x-hidden overscroll-contain">
+      <main className="p-12 h-full overflow-x-hidden overflow-y-scroll overscroll-contain">
         <Outlet />
       </main>
     </div>

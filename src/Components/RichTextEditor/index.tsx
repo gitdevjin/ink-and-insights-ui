@@ -59,10 +59,17 @@ export default function RichTextEditor({
   }, [editor]);
 
   return (
-    <div>
+    <div className="my-5 ">
       <ToolBox editor={editor} addImage={addImage} />
-      <div id="rich-text-content">
-        <EditorContent editor={editor} />
+      <div
+        id="rich-text-content"
+        className="my-1 h-screen rounded-lg focus:outline-none shadow-gray-300 shadow-lg"
+      >
+        <EditorContent
+          editor={editor}
+          className="h-screen focus:outline-none"
+          placeholder="Enter Content"
+        />
       </div>
     </div>
   );

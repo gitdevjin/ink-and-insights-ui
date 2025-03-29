@@ -2,9 +2,10 @@ import { useState } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { FaRegMoon, FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { LuSun } from "react-icons/lu";
+// import { LuSun } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import DesktopUserMenu from "./DesktopUserMenu";
+import quill from "/quill.png";
 
 export default function NavBar() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -24,11 +25,7 @@ export default function NavBar() {
               <GiHamburgerMenu className="w-full h-full aspect-square" />
             </div>
             <Link to="/" className="flex items-center">
-              <img
-                className="w-8 h-6 sm:w-12 sm:h-10"
-                src="quill.png"
-                alt="logo"
-              />
+              <img className="w-8 h-6 sm:w-12 sm:h-10" src={quill} alt="logo" />
               <div className="flex-row sm:flex-col ml-1 font-semibold flex">
                 <span>Ink &&nbsp;</span>
                 <span>Insights</span>
@@ -55,6 +52,7 @@ export default function NavBar() {
           <div className="flex items-center gap-1">
             <div className="flex items-center rounded-lg justify-center w-9 h-9 hover:bg-[#e1f1fc]/50">
               <FaRegMoon className="w-full h-6 cursor-pointer " />
+              {/*<LuSun className="rounded-full w-7 h-7 cursor-pointer" />*/}
             </div>
             <div
               onClick={() => setIsUserMenuOpen((prev: boolean) => !prev)}
@@ -62,17 +60,15 @@ export default function NavBar() {
             >
               <MdAccountCircle className="w-9 h-9 cursor-pointer" />
             </div>
-            <div>
-              {isUserMenuOpen && (
-                <div>
-                  <div
-                    className={`${isUserMenuOpen ? "scale-100" : "scale-0"} absolute top-13 right-12 transition-all duration-300 ease-in-out`}
-                  >
-                    <DesktopUserMenu />
-                  </div>
-                </div>
-              )}
-              {/*<LuSun className="rounded-full w-7 h-7 cursor-pointer" />*/}
+
+            <div
+              className={`${
+                isUserMenuOpen
+                  ? "opacity-100 scale-100 max-h-96"
+                  : "opacity-0 scale-95 max-h-0 pointer-events-none"
+              } absolute top-13 right-4 w-52 transition-all duration-300 ease-in-out transform`}
+            >
+              <DesktopUserMenu />
             </div>
           </div>
         </div>

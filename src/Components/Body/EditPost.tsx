@@ -3,6 +3,8 @@ import RichTextEditor from "../RichTextEditor";
 import { Editor } from "@tiptap/react";
 import { useParams } from "react-router-dom";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Post {
   id: number;
   title: string;
@@ -10,7 +12,12 @@ interface Post {
   userId: string;
   createdAt: string;
   updatedAt: string;
-  images: Image[];
+  view: number;
+  user: {
+    profile: {
+      nickname: string | null;
+    } | null;
+  };
 }
 
 interface Image {
@@ -21,7 +28,7 @@ interface Image {
 }
 
 export default function EditPost() {
-  console.log("called");
+  console.log("Edit Post Called");
   const { id } = useParams();
   const [fileMappings, setFileMappings] = useState<
     { blobUrl: string; file: File }[]
@@ -37,7 +44,7 @@ export default function EditPost() {
     const fetchData = async () => {
       setError(null);
       try {
-        const response = await fetch(`http://localhost:8080/post/read/${id}`, {
+        const response = await fetch(`${API_URL}/post/read/${id}`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -76,7 +83,6 @@ export default function EditPost() {
     const formData = new FormData();
     formData.append("title", title);
     formData.append("content", content);
-    formData.append("category", "bookreview"); // will be dynamically coded soon.
 
     fileMappings.forEach(({ file, blobUrl }, index) => {
       formData.append("images", file);

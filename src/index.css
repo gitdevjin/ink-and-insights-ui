@@ -18,6 +18,8 @@
 // #2b6cb0; Medium Blue for Header Menu
 // #2D3748; Darkmode Navbar Background
 // #e1f1fc; hover icon background
+// #3182ce; BrightMode Button Background
+// :BrightMode Button Background hover
 */
 
 :root {
@@ -35,12 +37,20 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  text-decoration: inherit;
+.basic-button {
+  background-color: #3182ce;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
 }
-a:hover {
-  color: #535bf2;
+
+.basic-button:hover {
+  background-color: #2b6cb0;
+}
+
+a {
+  font-weight: 400;
+  text-decoration: inherit;
 }
 
 body {
@@ -52,13 +62,10 @@ body {
 }
 
 h1 {
-  font-size: 3.2em;
+  font-size: 2em;
   line-height: 1.1;
 }
 
-button:hover {
-  border-color: #646cff;
-}
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -75,4 +82,19 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+ul.li.p {
+  text-decoration: navy;
+}
+
+li.p {
+  text-decoration: dotted;
+}
+
+.ProseMirror {
+  outline: none;
+  height: 100%;
+  padding: 0.5em;
+  overflow-x: auto;
 }

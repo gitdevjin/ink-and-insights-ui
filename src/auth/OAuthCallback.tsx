@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../hooks/use-user";
+import LoadingPage from "../Components/Error/LoadingPage";
 
 const OAuthCallback = () => {
   const { login } = useUser();
@@ -25,7 +26,11 @@ const OAuthCallback = () => {
     }
   }, [navigate]);
 
-  return <div>Redirecting...</div>;
+  return (
+    <div className="flex pt-20 justify-center w-full h-screen">
+      <LoadingPage />
+    </div>
+  );
 };
 
 export default OAuthCallback;

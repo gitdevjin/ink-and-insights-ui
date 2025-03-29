@@ -138,20 +138,22 @@ export default function ToolBox({ editor, addImage }: Props) {
 
   return (
     <div>
-      Text Editor ToolBox
-      <div>
+      <div className="flex flex-row">
         {tools.map(({ task, icon }) => {
           return (
-            <ToolButton
-              key={task}
-              onClick={() => handleOnClick(task)}
-              disabled={isTaskDisabled(task)}
-              active={
-                editor?.isActive(task) || editor?.isActive({ textAlign: task })
-              }
-            >
-              {icon}
-            </ToolButton>
+            <div className="flex items-center justify-center p-1 m-1 border-1">
+              <ToolButton
+                key={task}
+                onClick={() => handleOnClick(task)}
+                disabled={isTaskDisabled(task)}
+                active={
+                  editor?.isActive(task) ||
+                  editor?.isActive({ textAlign: task })
+                }
+              >
+                {icon}
+              </ToolButton>
+            </div>
           );
         })}
       </div>
