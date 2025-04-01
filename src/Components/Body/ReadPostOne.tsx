@@ -3,6 +3,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import { useParams, Link } from "react-router-dom";
+import { CiHeart } from "react-icons/ci";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -109,7 +111,15 @@ export default function ReadPostOne() {
   return (
     <div>
       <h1>{post.title}</h1>
-      <EditorContent editor={editor} />
+      <div className="min-h-screen">
+        <EditorContent editor={editor} />
+      </div>
+      <div className="flex flex-row items-center text-3xl gap-2">
+        <CiHeart className="text-5xl " />
+        {post.like}
+        <FaRegCommentAlt className=" mx-2 text-3xl" />
+        10
+      </div>
       <Link to={`/post/edit/${post.id}`}>
         <button>Edit</button>
       </Link>

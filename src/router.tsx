@@ -6,7 +6,6 @@ import About from "./Components/Body/About";
 import PostList from "./Components/Body/PostList";
 import OAuthCallback from "./auth/OAuthCallback";
 
-import TestEditor from "./Components/Body/TestEditor";
 import EditPost from "./Components/Body/EditPost";
 import WritePost from "./Components/Body/WritePost";
 import ReadPostOne from "./Components/Body/ReadPostOne";
@@ -19,7 +18,6 @@ const routes: RouteObject[] = [
       { index: true, element: <Home /> },
       { path: "about", element: <About /> },
       { path: "oauthcallback", element: <OAuthCallback /> },
-      { path: "testeditor", element: <TestEditor /> },
       { path: "post/edit/:id", element: <EditPost /> },
       { path: "post/read/:id", element: <ReadPostOne /> },
       { path: "post/list/:subCategoryId", element: <PostList /> }, // Single route
