@@ -2,9 +2,15 @@ import { useState, useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import { useParams, Link } from "react-router-dom";
-import { CiHeart } from "react-icons/ci";
+import {
+  useParams,
+  Link,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FaRegCommentAlt } from "react-icons/fa";
+import { formatDate } from "../../util/uitilFunc";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -15,13 +21,17 @@ interface Post {
   userId: string;
   createdAt: string;
   updatedAt: string;
+  subCategory: {
+    id: number;
+    name: string;
+  };
   view: number;
   user: {
     profile: {
       nickname: string | null;
     } | null;
   };
-  like: number;
+  likeCount: number;
 }
 
 interface Image {
@@ -32,10 +42,17 @@ interface Image {
 }
 
 export default function ReadPostOne() {
+  const navigate = useNavigate();
+
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || "1";
+
   const { id } = useParams();
   const [post, setPost] = useState<Post | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
 
   const editor = useEditor({
     extensions: [StarterKit, Image.configure({ inline: true })],
@@ -56,6 +73,8 @@ export default function ReadPostOne() {
 
         const res = await response.json();
         const fetchedPost = res.data;
+        setLikeCount(fetchedPost.likeCount);
+        setIsLiked(res.liked);
 
         console.log(fetchedPost);
 
@@ -76,6 +95,32 @@ export default function ReadPostOne() {
 
     fetchData(); // Call the async function
   }, [id, editor]);
+
+  const handleLike = async () => {
+    try {
+      const response = await fetch(`${API_URL}/post/like/${id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update like");
+      }
+
+      const res = await response.json();
+      console.log(res);
+
+      // Update states based on the response
+      setIsLiked(!isLiked);
+      setLikeCount((prev) => (isLiked ? prev - 1 : prev + 1));
+    } catch (error) {
+      console.error("Error liking post:", error);
+      alert("Failed to update like");
+    }
+  };
 
   const handleDeletePost = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,14 +156,28 @@ export default function ReadPostOne() {
   return (
     <div>
       <h1>{post.title}</h1>
+      <div> {formatDate(post.createdAt)}</div>
+      <div>{post.user.profile?.nickname}</div>
+      <div>{post.view}</div>
       <div className="min-h-screen">
         <EditorContent editor={editor} />
       </div>
-      <div className="flex flex-row items-center text-3xl gap-2">
-        <CiHeart className="text-5xl " />
-        {post.like}
-        <FaRegCommentAlt className=" mx-2 text-3xl" />
-        10
+      <div className="flex flex-row items-center text-2xl gap-6 justify-center">
+        <div
+          onClick={handleLike}
+          className="flex flex-col items-center justify-between"
+        >
+          {isLiked ? (
+            <FaHeart className="text-4xl text-red-500" />
+          ) : (
+            <FaRegHeart className="text-4xl text-red-500" />
+          )}
+          <div className="text-gray-700">{likeCount}</div>
+        </div>
+        <div className="flex flex-col h-full justify-between items-center">
+          <FaRegCommentAlt className="text-gray-400 text-4xl" />
+          <div className="text-gray-700">10</div>
+        </div>
       </div>
       <Link to={`/post/edit/${post.id}`}>
         <button>Edit</button>
@@ -126,7 +185,13 @@ export default function ReadPostOne() {
 
       <button onClick={handleDeletePost}>Delete</button>
 
-      <Link to="/">Back to List</Link>
+      <div
+        onClick={() =>
+          navigate(`/post/list/${post.subCategory.id}?page=${page}`)
+        }
+      >
+        Back to list
+      </div>
     </div>
   );
 }

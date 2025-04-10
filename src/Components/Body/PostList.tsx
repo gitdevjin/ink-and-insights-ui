@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useCategory } from "../../hooks/use-category";
+import { formatDate } from "../../util/uitilFunc";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -26,41 +26,16 @@ export default function PostList() {
   const { categories } = useCategory();
   const [posts, setPosts] = useState<Post[]>([]);
 
+  const [searchParams] = useSearchParams();
+
+  const pageParam = searchParams.get("page");
+  const pageParamNum = pageParam ? parseInt(pageParam) : 1;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalPosts, setTotalPosts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const now = new Date();
-
-    const isToday =
-      date.getFullYear() === now.getFullYear() &&
-      date.getMonth() === now.getMonth() &&
-      date.getDate() === now.getDate();
-
-    const yesterday = new Date();
-    yesterday.setDate(now.getDate() - 1);
-    const isYesterday =
-      date.getFullYear() === yesterday.getFullYear() &&
-      date.getMonth() === yesterday.getMonth() &&
-      date.getDate() === yesterday.getDate();
-
-    if (isToday) {
-      // Show only hour (24-hour format)
-      return date.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit",
-      });
-    } else if (isYesterday) {
-      return "Yesterday";
-    } else {
-      // Show date (YYYY-MM-DD)
-      return `${String(date.getFullYear()).slice(-2)}.${String(date.getMonth() + 1).padStart(2, "0")}.${String(date.getDate()).padStart(2, "0")}`;
-    }
-  };
+  const [currentPage, setCurrentPage] = useState(pageParamNum);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -174,7 +149,9 @@ export default function PostList() {
             <tr
               key={post.id}
               className="border-b bg-gray-100 border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-              onClick={() => navigate(`/post/read/${post.id}`)}
+              onClick={() =>
+                navigate(`/post/read/${post.id}?page=${currentPage}`)
+              }
             >
               <td className="w-[9%] py-4 px-4 text-gray-800 text-center">
                 {post.id}
