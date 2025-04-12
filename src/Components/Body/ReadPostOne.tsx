@@ -11,6 +11,7 @@ import {
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { formatDate } from "../../util/uitilFunc";
+import CommentForm from "./Comment/CommentForm";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -159,6 +160,7 @@ export default function ReadPostOne() {
       <div> {formatDate(post.createdAt)}</div>
       <div>{post.user.profile?.nickname}</div>
       <div>{post.view}</div>
+      <hr />
       <div className="min-h-screen">
         <EditorContent editor={editor} />
       </div>
@@ -192,6 +194,7 @@ export default function ReadPostOne() {
       >
         Back to list
       </div>
+      <CommentForm postId={post.id} />
     </div>
   );
 }

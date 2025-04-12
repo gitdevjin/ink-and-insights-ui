@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useCategory } from "../../hooks/use-category";
 import { formatDate } from "../../util/uitilFunc";
+import {
+  MdOutlineKeyboardDoubleArrowRight,
+  MdOutlineKeyboardDoubleArrowLeft,
+} from "react-icons/md";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -17,7 +21,7 @@ interface Post {
       nickname: string | null;
     } | null;
   };
-  like: number;
+  likeCount: number;
 }
 
 export default function PostList() {
@@ -166,28 +170,30 @@ export default function PostList() {
               <td className="w-[9%] py-4 px-4 text-gray-600 text-center">
                 {post.view}
               </td>
-              <td className="w-[9%] py-4 px-4 text-center">{post.like}</td>
+              <td className="w-[9%] py-4 px-4 text-center">{post.likeCount}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div>
+      <div className="flex flex-row items-center justify-center text-xl gap-2">
         <button
-          className="m-1"
+          className="m-1 text-blue-600 text-2xl cursor-pointer hover:bg-[#e1f1fc]/50"
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
-          Previous
+          <MdOutlineKeyboardDoubleArrowLeft />
         </button>
-        <span className="m-1">
-          {currentPage} of {totalPages}
+        <span className="m-1 flex gap-3">
+          <span>{currentPage}</span>
+          <span>of</span>
+          <span>{totalPages}</span>
         </span>
         <button
-          className="m-1"
+          className="m-1 text-blue-600 text-2xl cursor-pointer hover:bg-[#e1f1fc]/50"
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >
-          Next
+          <MdOutlineKeyboardDoubleArrowRight />
         </button>
       </div>
     </div>

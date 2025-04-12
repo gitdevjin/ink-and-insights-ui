@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useCategory } from "../../hooks/use-category";
 import { useState } from "react";
+import { IoIosArrowUp } from "react-icons/io";
 
 export default function DesktopSideMenu() {
   const { categories } = useCategory();
@@ -28,8 +29,14 @@ export default function DesktopSideMenu() {
                   onClick={() => toggleCategory(category.id)}
                 >
                   <div>{category.name}</div>
-                  <span className="mr-2transition-transform duration-400">
-                    {isOpen ? "▼" : "▶"}
+                  <span
+                    className={`${
+                      isOpen
+                        ? "mr-2 transition-transform duration-300"
+                        : "mr-2 transition-transform duration-300 rotate-180"
+                    }`}
+                  >
+                    <IoIosArrowUp />
                   </span>
                 </div>
                 <ul
