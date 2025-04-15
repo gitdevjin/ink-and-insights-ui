@@ -11,7 +11,7 @@ import {
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { formatDate } from "../../util/uitilFunc";
-import CommentForm from "./Comment/CommentForm";
+import Comment from "./Comment/";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -194,7 +194,7 @@ export default function ReadPostOne() {
       >
         Back to list
       </div>
-      <CommentForm postId={post.id} />
+      <Comment postId={post.id} />
     </div>
   );
 }

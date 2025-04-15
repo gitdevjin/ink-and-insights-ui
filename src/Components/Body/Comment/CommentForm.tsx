@@ -2,13 +2,26 @@ import { useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-interface Props {
-  postId: number;
+interface Comment {
+  id: number;
+  content: string;
+  user: {
+    profile: {
+      nickname: string | null;
+    } | null;
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
-export default function CommentForm({ postId }: Props) {
+interface Props {
+  postId: number;
+  onCommentPosted: (newComment: Comment) => void;
+}
+
+export default function CommentForm({ postId, onCommentPosted }: Props) {
   // State for the comment input
-  const [comment, setComment] = useState("");
+  const [commentContent, setCommentContent] = useState("");
   // State for submission status (e.g., loading, error, success)
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null); // Allow string or null
@@ -23,7 +36,7 @@ export default function CommentForm({ postId }: Props) {
     const charCount = value.length;
 
     if (charCount <= maxChars) {
-      setComment(value);
+      setCommentContent(value);
       setError(null); // Clear error if within limit
     } else {
       setError(`Comment exceeds ${maxChars} characters.`);
@@ -35,7 +48,7 @@ export default function CommentForm({ postId }: Props) {
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.preventDefault();
-    if (!comment.trim()) {
+    if (!commentContent.trim()) {
       setError("Comment cannot be empty.");
       return;
     }
@@ -53,7 +66,7 @@ export default function CommentForm({ postId }: Props) {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
         body: JSON.stringify({
-          content: comment,
+          content: commentContent,
           postId, // Connects to the post
         }),
       });
@@ -62,9 +75,14 @@ export default function CommentForm({ postId }: Props) {
         throw new Error("Failed to submit comment.");
       }
 
+      const result = await response.json();
+
+      console.log(result);
       //const newComment = await response.json();
       setSuccess("Comment submitted successfully!");
-      setComment(""); // Clear textarea
+
+      setCommentContent(""); // Clear textarea
+      onCommentPosted(result.data); //Add new comment to the comment list.
     } catch (err: unknown) {
       if (err instanceof Error) {
         setError(err.message);
@@ -84,7 +102,7 @@ export default function CommentForm({ postId }: Props) {
         </div>
         <textarea
           placeholder="Write your comment here... Max 200 Characters"
-          value={comment}
+          value={commentContent}
           onChange={handleCommentChange}
           className="flex-1 m-4 p-2 border-2 border-gray-300 rounded-md bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent resize-none"
           disabled={isSubmitting}
