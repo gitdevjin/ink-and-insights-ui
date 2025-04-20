@@ -6,6 +6,7 @@ interface Comment {
   id: number;
   content: string;
   user: {
+    id: string;
     profile: {
       nickname: string | null;
     } | null;
@@ -67,7 +68,7 @@ export default function CommentForm({ postId, onCommentPosted }: Props) {
         },
         body: JSON.stringify({
           content: commentContent,
-          postId, // Connects to the post
+          postId,
         }),
       });
 

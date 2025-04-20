@@ -8,10 +8,11 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { FaRegCommentAlt } from "react-icons/fa";
-import { formatDate } from "../../util/uitilFunc";
+import { FaHeart, FaRegHeart, FaRegCommentAlt, FaEye } from "react-icons/fa";
+import { MdAccountCircle } from "react-icons/md";
+//import { formatDate } from "../../util/uitilFunc";
 import Comment from "./Comment/";
+import { useUser } from "../../hooks/use-user";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -33,6 +34,7 @@ interface Post {
     } | null;
   };
   likeCount: number;
+  commentCount: number;
 }
 
 interface Image {
@@ -44,6 +46,7 @@ interface Image {
 
 export default function ReadPostOne() {
   const navigate = useNavigate();
+  const { user } = useUser();
 
   const [searchParams] = useSearchParams();
   const page = searchParams.get("page") || "1";
@@ -54,6 +57,9 @@ export default function ReadPostOne() {
   const [error, setError] = useState<string | null>(null);
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
+  const [totalComments, setTotalComments] = useState(0);
+
+  const [isCommentsOpen, setIsCommentsOpen] = useState(true);
 
   const editor = useEditor({
     extensions: [StarterKit, Image.configure({ inline: true })],
@@ -76,8 +82,10 @@ export default function ReadPostOne() {
         const fetchedPost = res.data;
         setLikeCount(fetchedPost.likeCount);
         setIsLiked(res.liked);
+        setTotalComments(fetchedPost.commentCount);
 
         console.log(fetchedPost);
+        console.log(res.liked);
 
         if (fetchedPost) {
           setPost(fetchedPost);
@@ -156,18 +164,62 @@ export default function ReadPostOne() {
   if (!post) return <div>Post not found</div>;
   return (
     <div>
-      <h1>{post.title}</h1>
-      <div> {formatDate(post.createdAt)}</div>
-      <div>{post.user.profile?.nickname}</div>
-      <div>{post.view}</div>
-      <hr />
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-col ">
+          <div className="text-6xl">{post.title}</div>
+        </div>
+        <div>
+          <div className="flex justify-end text-gray-600">
+            {new Date(post.createdAt).toLocaleString()}
+          </div>
+          <div className="flex justify-end text-2xl items-center gap-2">
+            <MdAccountCircle className="text-gray-400" />
+            {post.user.profile?.nickname}
+          </div>
+          <div className="flex justify-end text-lg">
+            <div className="flex flex-row gap-4">
+              <div className="flex flex-row items-center gap-1">
+                <FaEye className="text-gray-500" /> {post.view}
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <FaRegHeart className="text-gray-500" /> {post.likeCount}
+              </div>
+              <div className="flex flex-row items-center gap-1">
+                <FaRegCommentAlt className="text-gray-500" />{" "}
+                {post.commentCount}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr className="text-blue-800" />
+      {post.userId === user?.userId && (
+        <div className="mt-2 flex flex-row gap-2 justify-end">
+          <Link
+            className="text-blue-600 hover:text-blue-800 text-md"
+            to={`/post/edit/${post.id}`}
+          >
+            <button className="bg-[#0d9488] hover:bg-[#0c5d56] text-white px-1 w-12 rounded-sm cursor-pointer">
+              Edit
+            </button>
+          </Link>
+
+          <button
+            className="bg-[#E53E3E] text-white px-1 w-14 rounded-sm hover:bg-[#C53030] cursor-pointer"
+            onClick={handleDeletePost}
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
       <div className="min-h-screen">
         <EditorContent editor={editor} />
       </div>
       <div className="flex flex-row items-center text-2xl gap-6 justify-center">
         <div
           onClick={handleLike}
-          className="flex flex-col items-center justify-between"
+          className="flex flex-col items-center justify-between cursor-pointer"
         >
           {isLiked ? (
             <FaHeart className="text-4xl text-red-500" />
@@ -176,25 +228,30 @@ export default function ReadPostOne() {
           )}
           <div className="text-gray-700">{likeCount}</div>
         </div>
-        <div className="flex flex-col h-full justify-between items-center">
-          <FaRegCommentAlt className="text-gray-400 text-4xl" />
-          <div className="text-gray-700">10</div>
+        <div
+          onClick={() => setIsCommentsOpen((prev) => !prev)}
+          className="flex flex-col h-full justify-between items-center cursor-pointer"
+        >
+          <FaRegCommentAlt className="text-gray-400 text-4xl " />
+          <div className="text-gray-700">{totalComments}</div>
         </div>
       </div>
-      <Link to={`/post/edit/${post.id}`}>
-        <button>Edit</button>
-      </Link>
-
-      <button onClick={handleDeletePost}>Delete</button>
 
       <div
         onClick={() =>
           navigate(`/post/list/${post.subCategory.id}?page=${page}`)
         }
+        className="flex items-center justify-center w-32 h-8 px-4 py-2 my-4 mx-auto text-sm font-medium text-gray-700 bg-gray-200 rounded-md shadow-sm hover:bg-gray-300 active:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 cursor-pointer"
+        aria-label="Back to post list"
       >
         Back to list
       </div>
-      <Comment postId={post.id} />
+      <Comment
+        postId={post.id}
+        isCommentsOpen={isCommentsOpen}
+        totalComments={totalComments}
+        setTotalComments={setTotalComments}
+      />
     </div>
   );
 }

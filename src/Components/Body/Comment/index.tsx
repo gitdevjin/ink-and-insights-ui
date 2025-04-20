@@ -9,6 +9,7 @@ interface Comment {
   id: number;
   content: string;
   user: {
+    id: string;
     profile: {
       nickname: string | null;
     } | null;
@@ -16,16 +17,21 @@ interface Comment {
   createdAt: string;
   updatedAt: string;
 }
-
 interface Props {
   postId: number;
+  isCommentsOpen: boolean;
+  totalComments: number;
+  setTotalComments: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function Comment({ postId }: Props) {
+export default function Comment({
+  postId,
+  isCommentsOpen,
+  totalComments,
+  setTotalComments,
+}: Props) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
-
-  const [totalComments, setTotalComments] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -99,15 +105,29 @@ export default function Comment({ postId }: Props) {
     // fetchComments();
   };
 
+  const handleCommentDeleted = (commentId: number) => {
+    setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+    setTotalComments((prev) => prev - 1);
+  };
+
   return (
     <div className="my-4">
-      <CommentList
-        comments={comments}
-        editingCommentId={editingCommentId}
-        onEditComment={handleEditComment}
-        onCancelEdit={handleCancelEdit}
-        onCommentUpdated={handleCommentUpdated}
-      />
+      <div
+        className={`transition-all duration-500 ease-in-out overflow-hidden ${
+          isCommentsOpen ? "max-h-[1100px] opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <CommentList
+          postId={postId}
+          comments={comments}
+          editingCommentId={editingCommentId}
+          onEditComment={handleEditComment}
+          onCancelEdit={handleCancelEdit}
+          onCommentUpdated={handleCommentUpdated}
+          onCommentDeleted={handleCommentDeleted}
+        />
+      </div>
+
       {totalComments > 0 && (
         <CommentPagination
           currentPage={currentPage}

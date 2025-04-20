@@ -1,30 +1,41 @@
 import { useState } from "react";
+import { useUser } from "../../../hooks/use-user";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface Comment {
   id: number;
   content: string;
-  user: { profile: { nickname: string | null } | null };
+  user: {
+    id: string;
+    profile: {
+      nickname: string | null;
+    } | null;
+  };
   createdAt: string;
   updatedAt: string;
 }
 
 interface CommentListProps {
+  postId: number;
   comments: Comment[];
   editingCommentId: number | null;
   onEditComment: (commentId: number) => void;
   onCancelEdit: () => void;
   onCommentUpdated: (updatedComment: Comment) => void;
+  onCommentDeleted: (commentId: number) => void;
 }
 
 export default function CommentList({
+  postId,
   comments,
   editingCommentId,
   onEditComment,
   onCancelEdit,
   onCommentUpdated,
+  onCommentDeleted,
 }: CommentListProps) {
+  const { user } = useUser();
   const [editContent, setEditContent] = useState("");
   const [editError, setEditError] = useState<string | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -53,7 +64,7 @@ export default function CommentList({
     setEditError(null);
 
     try {
-      const response = await fetch(`${API_URL}/comment/${commentId}`, {
+      const response = await fetch(`${API_URL}/comment/edit/${commentId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -64,8 +75,8 @@ export default function CommentList({
 
       if (!response.ok) throw new Error("Failed to update comment");
 
-      const updatedComment = await response.json();
-      onCommentUpdated(updatedComment);
+      const data = await response.json();
+      onCommentUpdated(data.comment);
       setEditContent("");
     } catch (err: unknown) {
       if (err instanceof Error) {
@@ -78,6 +89,39 @@ export default function CommentList({
     }
   };
 
+  const handleDelete = async (e: React.FormEvent, commentId: number) => {
+    e.preventDefault();
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this post?"
+    );
+    if (!isConfirmed) return; // If the user cancels, do nothing
+
+    try {
+      const response = await fetch(`${API_URL}/comment/delete/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify({
+          postId,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to delete comment");
+
+      const data = await response.json();
+      console.log(data.data);
+      console.log(data.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setEditError(err.message);
+      } else {
+        setEditError("An unknown error occurred.");
+      }
+    }
+  };
+
   return (
     <div className="mt-6">
       {comments.length === 0 ? (
@@ -86,7 +130,7 @@ export default function CommentList({
         comments.map((comment) => (
           <div
             key={`${comment.id}-${comment.createdAt}`}
-            className="mb-4 p-4 border border-gray-200 rounded-lg bg-white shadow-sm"
+            className="mb-2 p-4 border border-gray-200 rounded-lg bg-white shadow-sm"
           >
             <div className="flex justify-between items-center">
               <div>
@@ -97,16 +141,31 @@ export default function CommentList({
                   {new Date(comment.createdAt).toLocaleString()}
                 </span>
               </div>
-              {/* Edit Button should only visible to the author */}
-              <button
-                onClick={() => {
-                  setEditContent(comment.content);
-                  onEditComment(comment.id);
-                }}
-                className="text-blue-600 hover:text-blue-800 text-sm"
-              >
-                Edit
-              </button>
+
+              <div className="flex flex-row gap-2">
+                {user?.userId === comment.user?.id && (
+                  <button
+                    onClick={() => {
+                      setEditContent(comment.content);
+                      onEditComment(comment.id);
+                    }}
+                    className="bg-[#0d9488]/75 hover:bg-[#0c5d56] rounded-sm w-8 text-white text-sm cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                )}
+                {user?.userId === comment.user?.id && (
+                  <button
+                    onClick={(e) => {
+                      handleDelete(e, comment.id);
+                      onCommentDeleted(comment.id);
+                    }}
+                    className="bg-[#E53E3E]/75 text-white w-12 rounded-sm hover:bg-[#C53030] text-sm cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                )}
+              </div>
             </div>
             {editingCommentId === comment.id ? (
               <div className="mt-2">

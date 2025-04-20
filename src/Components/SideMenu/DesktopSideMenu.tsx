@@ -28,7 +28,9 @@ export default function DesktopSideMenu() {
                   className="flex flex-row justify-between items-center cursor-pointer hover:bg-gray-300 p-2 rounded"
                   onClick={() => toggleCategory(category.id)}
                 >
-                  <div>{category.name}</div>
+                  <div className="font-semibold text-gray-800">
+                    {category.name}
+                  </div>
                   <span
                     className={`${
                       isOpen
@@ -67,7 +69,8 @@ export default function DesktopSideMenu() {
           })}
         </ul>
       </div>
-      <div>Temp Menu</div>
+      <div>Profile</div>
+      <div>Settings</div>
     </div>
   );
 }
