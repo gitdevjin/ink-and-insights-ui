@@ -150,7 +150,9 @@ export default function ReadPostOne() {
         throw new Error("Failed to delete the post");
       }
 
+      const data = await response.json();
       alert("Post deleted successfully!");
+      navigate(`/post/list/${data.post.subCategoryId}`);
       // Optionally, redirect or update UI
     } catch (error) {
       console.error("Error deleting post:", error);

@@ -102,7 +102,7 @@ export default function Comment({
       )
     );
     setEditingCommentId(null);
-    // fetchComments();
+    // fetchComments(); looks like this is not necessary
   };
 
   const handleCommentDeleted = (commentId: number) => {

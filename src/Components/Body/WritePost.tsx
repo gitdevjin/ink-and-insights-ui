@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import {} from "react-router-dom";
 import RichTextEditor from "../RichTextEditor";
 import { Editor } from "@tiptap/react";
 import { useCategory } from "../../hooks/use-category";
@@ -7,6 +8,7 @@ import { useCategory } from "../../hooks/use-category";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function WritePost() {
+  const navigate = useNavigate();
   const { subCategoryId } = useParams<{ subCategoryId: string }>();
   const { categories } = useCategory();
   const [fileMappings, setFileMappings] = useState<
@@ -64,7 +66,8 @@ export default function WritePost() {
       setFileMappings([]);
       setTitle("");
       console.log("Post saved:");
-      console.log(res.message);
+      console.log(res);
+      navigate(`/post/read/${res.post.id}`);
     } catch (error) {
       console.error("Error saving post:", error);
     }
