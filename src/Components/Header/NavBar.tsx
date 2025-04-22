@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { FaRegMoon, FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -8,11 +8,28 @@ import DesktopUserMenu from "./DesktopUserMenu";
 import quill from "/quill.png";
 
 export default function NavBar() {
+  const menuRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
   const handleSearch = () => {
     console.log("Search Clicked");
   };
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    }
+
+    if (isUserMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
 
   return (
     <div id="navbar" className="fixed flex flex-col top-0 w-full z-10">
@@ -62,6 +79,7 @@ export default function NavBar() {
             </div>
 
             <div
+              ref={menuRef}
               className={`${
                 isUserMenuOpen
                   ? "opacity-100 scale-100 max-h-96"

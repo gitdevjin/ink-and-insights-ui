@@ -5,13 +5,18 @@ import { CgProfile } from "react-icons/cg";
 import { FaGithub } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { MdOutlineExitToApp } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 export default function DesktopUserMenu() {
+  const navigate = useNavigate();
   const { user, logout } = useUser();
   return (
     <div className="w-full h-full py-2 border-1 rounded-lg text-gray-700 border-gray-300 bg-white text-md font-semibold">
       {user?.name && (
-        <div className="px-2 py-1 flex flex-row items-center gap-2 w-full hover:cursor-pointer hover:bg-blue-100 ">
+        <div
+          onClick={() => navigate(`user/profile/${user.userId}`)}
+          className="px-2 py-1 flex flex-row items-center gap-2 w-full hover:cursor-pointer hover:bg-blue-100 "
+        >
           <CgProfile /> Profile
         </div>
       )}
