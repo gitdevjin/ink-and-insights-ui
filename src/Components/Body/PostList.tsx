@@ -6,6 +6,8 @@ import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
+import LoadingPage from "../Error/LoadingPage";
+import { FaRegCommentAlt } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,6 +24,7 @@ interface Post {
     } | null;
   };
   likeCount: number;
+  commentCount: number;
 }
 
 export default function PostList() {
@@ -114,7 +117,12 @@ export default function PostList() {
   }, [subCategoryId, categories, currentPage]); // Include categories if it can change
 
   // Conditional rendering after hooks
-  if (loading) return <div>Loading posts...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center pt-10 h-screen w-full">
+        <LoadingPage />
+      </div>
+    );
   if (error) return <div>{error}</div>;
 
   const subCategory = categories
@@ -140,12 +148,15 @@ export default function PostList() {
       <table className="min-w-full border-collapse bg-white shadow-md rounded-lg">
         <thead>
           <tr className="bg-blue-100 text-gray-700 uppercase text-sm tracking-wider">
-            <th className="w-[9%] py-3 px-4 text-center">ID</th>
+            <th className="w-[8%] py-3 px-4 text-center">ID</th>
             <th className="w-[55%] py-3 px-4 text-left">Title</th>
-            <th className="w-[9%] py-3 px-4 text-center">Writer</th>
-            <th className="w-[9%] py-3 px-4 text-center">Date</th>
-            <th className="w-[9%] py-3 px-4 text-center">View</th>
-            <th className="w-[9%] py-3 px-4 text-center">Likes</th>
+            <th className="w-[8%] py-3 px-4 text-center">Writer</th>
+            <th className="w-[8%] py-3 px-4 text-center">Date</th>
+            <th className="w-[7%] py-3 px-4 text-center">Views</th>
+            <th className="w-[6%] py-3 px-4 text-center">Likes</th>
+            <th className="w-[4%] py-3 px-4 text-center">
+              <FaRegCommentAlt className="flex justify-center items-center m-auto" />
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -157,20 +168,23 @@ export default function PostList() {
                 navigate(`/post/read/${post.id}?page=${currentPage}`)
               }
             >
-              <td className="w-[9%] py-4 px-4 text-gray-800 text-center">
+              <td className="w-[8%] py-4 px-4 text-gray-800 text-center">
                 {post.id}
               </td>
               <td className="w-[55%] py-4 px-4 text-gray-800">{post.title}</td>
-              <td className="w-[9%] py-4 px-4 text-gray-600 text-center">
+              <td className="w-[8%] py-4 px-4 text-gray-600 text-center">
                 {post.user.profile?.nickname}
               </td>
-              <td className="w-[9%] py-4 px-4 text-gray-600 text-center">
+              <td className="w-[8%] py-4 px-4 text-gray-600 text-center">
                 {formatDate(post.createdAt)}
               </td>
-              <td className="w-[9%] py-4 px-4 text-gray-600 text-center">
+              <td className="w-[7%] py-4 px-4 text-gray-600 text-center">
                 {post.view}
               </td>
-              <td className="w-[9%] py-4 px-4 text-center">{post.likeCount}</td>
+              <td className="w-[6%] py-4 px-4 text-center">{post.likeCount}</td>
+              <td className="w-[4%] py-4 px-4 text-center">
+                {post.commentCount}
+              </td>
             </tr>
           ))}
         </tbody>

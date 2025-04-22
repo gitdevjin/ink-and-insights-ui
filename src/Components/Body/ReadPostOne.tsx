@@ -13,6 +13,7 @@ import { MdAccountCircle } from "react-icons/md";
 //import { formatDate } from "../../util/uitilFunc";
 import Comment from "./Comment/";
 import { useUser } from "../../hooks/use-user";
+import LoadingPage from "../Error/LoadingPage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -161,7 +162,12 @@ export default function ReadPostOne() {
   };
 
   if (!editor) return null;
-  if (loading) return <div>Loading post...</div>;
+  if (loading)
+    return (
+      <div className="flex justify-center pt-10 h-screen w-full">
+        <LoadingPage />
+      </div>
+    );
   if (error) return <div>{error}</div>;
   if (!post) return <div>Post not found</div>;
   return (
