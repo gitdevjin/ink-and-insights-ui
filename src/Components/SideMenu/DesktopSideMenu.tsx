@@ -71,6 +71,31 @@ export default function DesktopSideMenu() {
       </div>
       <div>Profile</div>
       <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
+      <div>Settings</div>
     </div>
   );
 }

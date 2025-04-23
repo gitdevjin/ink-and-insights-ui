@@ -5,10 +5,10 @@ import Home from "./Components/Body/Home";
 import About from "./Components/Body/About";
 import PostList from "./Components/Body/PostList";
 import OAuthCallback from "./auth/OAuthCallback";
-
 import EditPost from "./Components/Body/EditPost";
 import WritePost from "./Components/Body/WritePost";
 import ReadPostOne from "./Components/Body/ReadPostOne";
+import Profile from "./Components/Body/Profile";
 
 const routes: RouteObject[] = [
   {
@@ -22,6 +22,7 @@ const routes: RouteObject[] = [
       { path: "post/read/:id", element: <ReadPostOne /> },
       { path: "post/list/:subCategoryId", element: <PostList /> }, // Single route
       { path: "post/write/:subCategoryId", element: <WritePost /> }, // Single route
+      { path: "user/profile/:id", element: <Profile /> },
     ],
   },
 ];
