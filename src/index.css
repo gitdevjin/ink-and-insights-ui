@@ -48,6 +48,10 @@
   background-color: #2b6cb0;
 }
 
+.cropper-bg {
+  opacity: 0.5;
+}
+
 a {
   font-weight: 400;
   text-decoration: inherit;

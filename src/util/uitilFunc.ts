@@ -1,3 +1,4 @@
+// change the file name to formatDate.ts
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   const now = new Date();
