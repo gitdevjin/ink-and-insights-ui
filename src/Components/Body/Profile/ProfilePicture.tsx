@@ -23,33 +23,34 @@ const ProfilePicture: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [success, setSuccess] = useState<string | null>(null);
 
-  // Fetch existing profile image
-  useEffect(() => {
-    const fetchProfile = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          `${API_URL}/profile/get/imageUrl/${user?.userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch profile");
+  const fetchProfileImageUrl = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${API_URL}/profile/get/imageUrl/${user?.userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
-        const data = await response.json();
-        if (data.profile_image) {
-          setImagePreview(data.profile_image);
-        }
-      } catch (err) {
-        console.log("error", err);
-      } finally {
-        setIsLoading(false);
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch profile");
       }
-    };
-    fetchProfile();
+      const data = await response.json();
+      if (data.url) {
+        setImagePreview(data.url);
+        console.log(data.url);
+      }
+    } catch (err) {
+      console.log("error", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  // Fetch existing profile image url
+  useEffect(() => {
+    fetchProfileImageUrl();
   }, []);
 
   // Handle image input changes
@@ -115,22 +116,26 @@ const ProfilePicture: React.FC = () => {
     setSuccess(null);
 
     const formData = new FormData();
-    formData.append("profile_image", profileImage);
+    formData.append("image", profileImage);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/user/", {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: formData,
-      });
+      const response = await fetch(
+        `${API_URL}/profile/edit/image/${user?.userId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+          body: formData,
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to upload image");
       }
       const data = await response.json();
+      console.log(data);
       setSuccess("Profile image updated successfully");
-      setImagePreview(data.profile_image); // Update with server URL
+      setImagePreview(data.imageUrl); // Update with server URL
       setProfileImage(null); // Clear file
     } catch (err) {
       console.error("Error:", err);
