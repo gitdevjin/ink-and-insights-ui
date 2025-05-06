@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import RichTextEditor from "../RichTextEditor";
+import RichTextEditor from "../../RichTextEditor";
 import { Editor } from "@tiptap/react";
 import { useParams } from "react-router-dom";
 

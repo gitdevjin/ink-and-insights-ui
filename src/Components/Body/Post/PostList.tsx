@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { useCategory } from "../../hooks/use-category";
-import { formatDate } from "../../util/uitilFunc";
+import { useCategory } from "../../../hooks/use-category";
+import { useUser } from "../../../hooks/use-user";
+import { formatDate } from "../../../util/uitilFunc";
 import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
-import LoadingPage from "../Error/LoadingPage";
+import LoadingPage from "../../Error/LoadingPage";
 import { FaRegCommentAlt } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL;
@@ -29,6 +30,7 @@ interface Post {
 
 export default function PostList() {
   const navigate = useNavigate();
+  const { user } = useUser();
   const { subCategoryId } = useParams<{ subCategoryId: string }>();
   const { categories } = useCategory();
   const [posts, setPosts] = useState<Post[]>([]);
@@ -164,9 +166,13 @@ export default function PostList() {
             <tr
               key={post.id}
               className="border-b bg-gray-100 border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-              onClick={() =>
-                navigate(`/post/read/${post.id}?page=${currentPage}`)
-              }
+              onClick={() => {
+                if (user?.userId) {
+                  navigate(`/post/read/${post.id}?page=${currentPage}`);
+                } else {
+                  navigate("/login");
+                }
+              }}
             >
               <td className="w-[8%] py-4 px-4 text-gray-800 text-center">
                 {post.id}

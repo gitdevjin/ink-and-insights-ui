@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import RichTextEditor from "../RichTextEditor";
+import RichTextEditor from "../../RichTextEditor";
 import { Editor } from "@tiptap/react";
-import { useCategory } from "../../hooks/use-category";
+import { useCategory } from "../../../hooks/use-category";
 
 const API_URL = import.meta.env.VITE_API_URL;
 

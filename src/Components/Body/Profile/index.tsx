@@ -185,9 +185,9 @@ export default function Profile() {
                 id="dob"
                 name="dob"
                 type="date"
-                //value={formData.dob}
+                value={formData.dob ? formData.dob.substring(0, 10) : ""}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border bg-gray-200 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>

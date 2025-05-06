@@ -11,9 +11,9 @@ import {
 import { FaHeart, FaRegHeart, FaRegCommentAlt, FaEye } from "react-icons/fa";
 import { MdAccountCircle } from "react-icons/md";
 //import { formatDate } from "../../util/uitilFunc";
-import Comment from "./Comment/";
-import { useUser } from "../../hooks/use-user";
-import LoadingPage from "../Error/LoadingPage";
+import Comment from "../Comment";
+import { useUser } from "../../../hooks/use-user";
+import LoadingPage from "../../Error/LoadingPage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -77,6 +77,7 @@ export default function ReadPostOne() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
+          credentials: "include",
         });
 
         const res = await response.json();

@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import { useCategory } from "../../hooks/use-category";
 import { useState } from "react";
 import { IoIosArrowUp } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../hooks/use-user";
 
 export default function DesktopSideMenu() {
+  const navigate = useNavigate();
+  const { user } = useUser();
   const { categories } = useCategory();
   const [openCategories, setOpenCategories] = useState<number[]>([]);
 
@@ -18,7 +22,9 @@ export default function DesktopSideMenu() {
   return (
     <div className="hidden sm:flex top-0 sm:flex-col">
       <div>
-        <h2>CATEGORY</h2>
+        <div className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200  rounded-lg">
+          CATEGORY
+        </div>
         <ul>
           {categories.map((category) => {
             const isOpen = openCategories.includes(category.id);
@@ -69,7 +75,21 @@ export default function DesktopSideMenu() {
           })}
         </ul>
       </div>
-      <div>Profile</div>
+      <div
+        onClick={() => {
+          if (user?.userId) {
+            navigate(`user/profile/${user.userId}`);
+          } else {
+            navigate("/login");
+          }
+        }}
+        className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
+      >
+        My Profile
+      </div>
+      <div className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg ">
+        My Activity
+      </div>
       <div>Settings</div>
       <div>Settings</div>
       <div>Settings</div>
@@ -80,12 +100,7 @@ export default function DesktopSideMenu() {
       <div>Settings</div>
       <div>Settings</div>
       <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
+
       <div>Settings</div>
       <div>Settings</div>
       <div>Settings</div>
