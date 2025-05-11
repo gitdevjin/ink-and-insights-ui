@@ -22,7 +22,7 @@ export default function DesktopSideMenu() {
   return (
     <div className="hidden sm:flex top-0 sm:flex-col">
       <div>
-        <div className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200  rounded-lg">
+        <div className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200  rounded-lg">
           CATEGORY
         </div>
         <ul>
@@ -83,11 +83,20 @@ export default function DesktopSideMenu() {
             navigate("/login");
           }
         }}
-        className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
+        className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
       >
         My Profile
       </div>
-      <div className="text-lg p-1 my-0.5 text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg ">
+      <div
+        onClick={() => {
+          if (user?.userId) {
+            navigate(`user/activity`);
+          } else {
+            navigate("/login");
+          }
+        }}
+        className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
+      >
         My Activity
       </div>
       <div>Settings</div>

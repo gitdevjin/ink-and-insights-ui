@@ -9,6 +9,7 @@ import EditPost from "./Components/Body/Post/EditPost";
 import WritePost from "./Components/Body/Post/WritePost";
 import ReadPostOne from "./Components/Body/Post/ReadPostOne";
 import Profile from "./Components/Body/Profile";
+import Activity from "./Components/Body/Activity";
 import Login from "./Components/Login";
 
 const routes: RouteObject[] = [
@@ -24,6 +25,7 @@ const routes: RouteObject[] = [
       { path: "post/list/:subCategoryId", element: <PostList /> },
       { path: "post/write/:subCategoryId", element: <WritePost /> },
       { path: "user/profile/:id", element: <Profile /> },
+      { path: "user/activity", element: <Activity /> },
       { path: "login", element: <Login /> },
     ],
   },

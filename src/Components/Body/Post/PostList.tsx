@@ -136,7 +136,7 @@ export default function PostList() {
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="m-2 text-[#2b6cb0] ">{subCategory.name}</h1>
+      <h1 className="m-2 text-[#2b6cb0] font-bold">{subCategory.name}</h1>
       <div className="flex justify-between m-3">
         <div className="flex items-center">total posts: {totalPosts}</div>
         <div

@@ -154,7 +154,7 @@ const ProfilePicture: React.FC = () => {
       </label>
       <div className="relative mb-4">
         <img
-          src={imagePreview || "/public/profile.png"}
+          src={imagePreview || "/profile.png"}
           alt="Profile preview"
           className="mt-2 w-52 h-52 rounded-full object-cover border border-gray-300"
         />
