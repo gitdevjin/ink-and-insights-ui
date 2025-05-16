@@ -5,7 +5,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../hooks/use-user";
 
-export default function DesktopSideMenu() {
+export default function MobileSideMenu() {
   const navigate = useNavigate();
   const { user } = useUser();
   const { categories } = useCategory();
@@ -20,8 +20,8 @@ export default function DesktopSideMenu() {
   };
 
   return (
-    <div className="h-screen hidden sm:flex top-0 sm:flex-col ">
-      <div>
+    <div className="h-full flex flex-col sm:hidden top-0 p-4 dark:ink-bg-dark-100 overflow-auto">
+      <div className="">
         <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 rounded-lg">
           CATEGORIES
         </div>
@@ -100,26 +100,22 @@ export default function DesktopSideMenu() {
         My Activity
       </div>
       <div className="text-gray-800">Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
     </div>
   );
 }
