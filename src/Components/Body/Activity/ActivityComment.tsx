@@ -31,6 +31,7 @@ export default function ActivityComment() {
   const navigate = useNavigate();
 
   const [comments, setComments] = useState<Comment[]>([]);
+  const [totalComments, setTotalComments] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -65,6 +66,7 @@ export default function ActivityComment() {
         const data = await response.json();
         console.log(data);
         setComments(data.comments);
+        setTotalComments(data.totalComments);
         setTotalPages(Math.ceil(data.totalComments / commentsPerPage));
       } catch (err) {
         console.log(err);
@@ -75,7 +77,9 @@ export default function ActivityComment() {
 
   return (
     <div>
-      <div>Hi {user?.name}, This is Your Comment Activity</div>
+      <div>
+        {user?.name}'s Total Comments: {totalComments}
+      </div>
       {comments.length === 0 ? (
         <p className="text-gray-500">No comments yet.</p>
       ) : (

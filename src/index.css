@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: "Satoshi", "sans-serif";
   --breakpoint-3xl: 1920px;
@@ -11,7 +13,15 @@
   --color-avocado-600: oklch(0.53 0.12 118.34);
   --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+
   /* ... */
+}
+@utility ink-bg-dark-100 {
+  background-color: #2d3748;
+}
+
+@utility ink-bg-dark-50 {
+  background-color: #4a5568;
 }
 
 /*

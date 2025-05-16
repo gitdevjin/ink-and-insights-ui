@@ -118,8 +118,8 @@ export default function Profile() {
   return (
     <div className="w-full py-2 px-6 rounded-lg">
       <div className="text-4xl font-bold mb-4">Public Profile</div>
-      <div className="flex flex-col-reverse sm:flex-row w-full">
-        <div className="w-full sm:w-[70%]">
+      <div className="flex flex-col-reverse sm:flex-row w-full gap-1 sm:gap-2">
+        <div className="w-full sm:mr-10">
           {isLoading && <p className="text-blue-600">Loading...</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
           {success && <p className="text-green-600 mb-4">{success}</p>}

@@ -20,10 +20,10 @@ export default function DesktopSideMenu() {
   };
 
   return (
-    <div className="hidden sm:flex top-0 sm:flex-col">
+    <div className="hidden sm:flex top-0 sm:flex-col ">
       <div>
-        <div className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200  rounded-lg">
-          CATEGORY
+        <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 rounded-lg">
+          CATEGORIES
         </div>
         <ul>
           {categories.map((category) => {
@@ -31,10 +31,10 @@ export default function DesktopSideMenu() {
             return (
               <li className="m-1.5 " key={category.id}>
                 <div
-                  className="flex flex-row justify-between items-center cursor-pointer hover:bg-gray-300 p-2 rounded"
+                  className="flex flex-row justify-between items-center cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-400 p-2 rounded"
                   onClick={() => toggleCategory(category.id)}
                 >
-                  <div className="font-semibold text-gray-800">
+                  <div className="font-semibold text-gray-800 dark:text-gray-300">
                     {category.name}
                   </div>
                   <span
@@ -58,7 +58,7 @@ export default function DesktopSideMenu() {
                 >
                   {category.subCategories.map((sub) => (
                     <li
-                      className="ml-3 p-2 border-l border-l-gray-300 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-tr-lg rounded-br-lg "
+                      className="ml-3 p-2 border-l border-l-gray-300 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-tr-lg rounded-br-lg"
                       key={sub.id}
                     >
                       <Link
@@ -83,7 +83,7 @@ export default function DesktopSideMenu() {
             navigate("/login");
           }
         }}
-        className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
+        className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg "
       >
         My Profile
       </div>
@@ -95,11 +95,11 @@ export default function DesktopSideMenu() {
             navigate("/login");
           }
         }}
-        className="text-md p-1 my-0.5 font-semibold text-gray-700 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 cursor-pointer rounded-lg "
+        className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg "
       >
         My Activity
       </div>
-      <div>Settings</div>
+      <div className="text-gray-800">Settings</div>
       <div>Settings</div>
       <div>Settings</div>
       <div>Settings</div>

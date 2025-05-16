@@ -125,31 +125,31 @@ export default function CommentList({
   return (
     <div className="mt-6">
       {comments.length === 0 ? (
-        <p className="text-gray-500">No comments yet.</p>
+        <p className="text-gray-500 dark:text-gray-200">No comments yet.</p>
       ) : (
         comments.map((comment) => (
           <div
             key={`${comment.id}-${comment.createdAt}`}
-            className="mb-2 p-4 border border-gray-200 rounded-lg bg-white shadow-sm"
+            className="mb-2 p-4 border border-gray-200 rounded-lg bg-white dark:ink-bg-dark-100 dark:border-gray-600 shadow-sm"
           >
             <div className="flex justify-between items-center">
               <div>
-                <span className="font-semibold text-gray-800">
+                <span className="font-semibold text-gray-800 dark:text-gray-300">
                   {comment.user?.profile?.nickname || "Anonymous"}
                 </span>
-                <span className="ml-2 text-sm text-gray-500">
+                <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
                   {new Date(comment.createdAt).toLocaleString()}
                 </span>
               </div>
 
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2 ">
                 {user?.userId === comment.user?.id && (
                   <button
                     onClick={() => {
                       setEditContent(comment.content);
                       onEditComment(comment.id);
                     }}
-                    className="bg-[#0d9488]/75 hover:bg-[#0c5d56] rounded-sm w-8 text-white text-sm cursor-pointer"
+                    className="bg-[#0d9488]/75 hover:bg-[#0c5d56] rounded-sm w-8 text-white  text-sm cursor-pointer"
                   >
                     Edit
                   </button>
@@ -168,7 +168,7 @@ export default function CommentList({
               </div>
             </div>
             {editingCommentId === comment.id ? (
-              <div className="mt-2">
+              <div className="mt-2 ">
                 <textarea
                   value={editContent}
                   onChange={handleEditChange}
@@ -201,7 +201,9 @@ export default function CommentList({
                 </div>
               </div>
             ) : (
-              <p className="mt-2 text-gray-700">{comment.content}</p>
+              <p className="mt-2 text-gray-700 dark:text-gray-200">
+                {comment.content}
+              </p>
             )}
           </div>
         ))

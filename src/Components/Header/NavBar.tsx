@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { MdAccountCircle } from "react-icons/md";
 import { FaRegMoon, FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
-// import { LuSun } from "react-icons/lu";
+import { LuSun } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import DesktopUserMenu from "./DesktopUserMenu";
 import quill from "/quill.png";
@@ -10,6 +10,30 @@ import quill from "/quill.png";
 export default function NavBar() {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") return "light"; // SSR safe
+    return (
+      localStorage.getItem("theme") ||
+      (window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light")
+    );
+  });
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+  };
 
   const handleSearch = () => {
     console.log("Search Clicked");
@@ -34,7 +58,7 @@ export default function NavBar() {
   return (
     <div id="navbar" className="fixed flex flex-col top-0 w-full z-10">
       {/* Navbar */}
-      <nav className="flex justify-center bg-white w-full border-b border-gray-400 h-12 text-[#2b6cb0]">
+      <nav className="flex justify-center bg-white dark:ink-bg-dark-100 w-full border-b border-gray-400 h-12 text-[#2b6cb0]">
         <div className="flex items-center justify-between relative h-full w-full px-4 md:px-8">
           {/* Left Section - Logo */}
           <div className="flex items-center gap-3">
@@ -67,9 +91,17 @@ export default function NavBar() {
 
           {/* Right Section - Icons */}
           <div className="flex items-center gap-1">
-            <div className="flex items-center rounded-lg justify-center w-9 h-9 hover:bg-[#e1f1fc]/50">
-              <FaRegMoon className="w-full h-6 cursor-pointer " />
-              {/*<LuSun className="rounded-full w-7 h-7 cursor-pointer" />*/}
+            <div
+              onClick={toggleTheme}
+              className="flex items-center rounded-lg justify-center w-9 h-9 hover:bg-[#e1f1fc]/50"
+            >
+              {theme === "dark" ? (
+                <LuSun className="rounded-full w-7 h-7 cursor-pointer" />
+              ) : (
+                <FaRegMoon className="w-full h-6 cursor-pointer " />
+              )}
+
+              {/**/}
             </div>
             <div
               onClick={() => setIsUserMenuOpen((prev: boolean) => !prev)}

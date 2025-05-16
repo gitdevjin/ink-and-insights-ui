@@ -13,7 +13,10 @@ export default function Layout() {
   }, []);
 
   return (
-    <div id="layout-index" className="h-screen flex flex-col pt-12 ">
+    <div
+      id="layout-index"
+      className="h-screen flex flex-col pt-12 dark:ink-bg-dark-50"
+    >
       <NavBar />
       {isMobile ? <MobileLayout /> : <DesktopLayout />}
     </div>

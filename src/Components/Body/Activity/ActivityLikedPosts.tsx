@@ -27,11 +27,11 @@ interface Post {
   };
 }
 
-export default function ActivityPost() {
+export default function ActivityLikedPosts() {
   const { user } = useUser();
   const navigate = useNavigate();
 
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [likedPosts, setLikedPosts] = useState<Post[]>([]);
   const [totalPosts, setTotalPosts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +56,7 @@ export default function ActivityPost() {
     const fetchPosts = async () => {
       try {
         const response = await fetch(
-          `${API_URL}/activity/post?page=${currentPage}`,
+          `${API_URL}/activity/likedPost?page=${currentPage}`,
           {
             method: "GET",
             headers: {
@@ -67,9 +67,9 @@ export default function ActivityPost() {
 
         const res = await response.json();
         console.log(res);
-        setPosts(res.posts || []);
-        setTotalPosts(res.totalPosts);
-        setTotalPages(Math.ceil(res.totalPosts / postsPerPage));
+        setLikedPosts(res.likedPosts || []);
+        setTotalPosts(res.totalLikedPosts);
+        setTotalPages(Math.ceil(res.totalLikedPosts / postsPerPage));
       } catch (err) {
         console.log(err);
       }
@@ -77,14 +77,13 @@ export default function ActivityPost() {
     fetchPosts();
   }, [currentPage]);
 
-  console.log(posts);
   return (
     <div>
       <div>
-        {user?.name}'s Total Posts: {totalPosts}
+        {user?.name}'s Total Liked Posts: {totalPosts}
       </div>
-      {posts.length !== 0 &&
-        posts.map((post) => (
+      {likedPosts.length !== 0 &&
+        likedPosts.map((post) => (
           <div
             key={post.id}
             className="p-4 mb-4 border rounded-lg shadow-sm hover:shadow-md transition cursor-pointer"

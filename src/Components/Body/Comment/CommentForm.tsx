@@ -97,15 +97,15 @@ export default function CommentForm({ postId, onCommentPosted }: Props) {
 
   return (
     <div>
-      <div className="flex flex-col my-4 w-full h-60 rounded-lg border border-gray-300 shadow-md bg-gray-200">
-        <div className="px-4 pt-3 text-lg font-semibold text-gray-700">
+      <div className="flex flex-col my-4 w-full h-60 rounded-lg border border-gray-300 dark:border-gray-500 shadow-md bg-gray-200 dark:ink-bg-dark-100">
+        <div className="px-4 pt-3 text-lg font-semibold text-gray-700 dark:text-gray-400">
           Leave a comment
         </div>
         <textarea
           placeholder="Write your comment here... Max 200 Characters"
           value={commentContent}
           onChange={handleCommentChange}
-          className="flex-1 m-4 p-2 border-2 border-gray-300 rounded-md bg-gray-100 text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent resize-none"
+          className="flex-1 m-4 p-2 border-2 border-gray-300 dark:border-gray-500 rounded-md bg-gray-100 dark:ink-bg-dark-50 text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-transparent resize-none"
           disabled={isSubmitting}
         />
         <div className="px-4 pb-2 flex justify-end">

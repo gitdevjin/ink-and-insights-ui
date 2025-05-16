@@ -145,7 +145,7 @@ const ProfilePicture: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col max-w-md mx-auto sm:px-4 my-4 sm:my-0">
+    <div className="flex flex-col max-w-md mx-auto sm:px-4 my-4 sm:my-0 sm:ml-10">
       {isLoading && <p className="text-blue-600">Loading...</p>}
       {error && <p className="text-red-600 mb-4">{error}</p>}
       {success && <p className="text-green-600 mb-4">{success}</p>}
@@ -160,7 +160,7 @@ const ProfilePicture: React.FC = () => {
         />
         <label
           htmlFor="imageUpload"
-          className="absolute bottom-0 left-2 flex flex-row justify-center items-center w-[17%] cursor-pointer bg-gray-200 hover:bg-blue-100 file:mr-4 py-1.5 px-1 rounded-md text-md text-center"
+          className="absolute bottom-0 left-2 flex flex-row justify-center items-center w-[20%] cursor-pointer bg-gray-200 hover:bg-blue-100 file:mr-4 py-1.5 px-1 rounded-md text-md text-center"
         >
           <FaPencilAlt className="" />
           <span> &nbsp; edit </span>

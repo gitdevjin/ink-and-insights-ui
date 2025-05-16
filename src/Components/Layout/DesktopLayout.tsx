@@ -9,12 +9,12 @@ export default function DesktopLayout() {
 
   return (
     <div
-      className={`grid h-screen w-full overflow-hidden transition-all duration-400 ease-in-out ${
+      className={`grid justify-center h-screen w-full overflow-hidden transition-all duration-400 ease-in-out ${
         isSidebarOpen ? "grid-cols-[256px_1fr]" : "grid-cols-[64px_1fr]"
       }`}
     >
       {/* Sidebar */}
-      <aside className="relative bg-gray-100 border-r border-gray-400 p-4 flex flex-col z-5 overflow-y-scroll overflow-x-hidden overscroll-contain">
+      <aside className="relative bg-gray-100 dark:ink-bg-dark-50 dark:border-gray-500 border-r border-gray-400 p-4 flex flex-col z-5 overflow-y-scroll overflow-x-hidden overscroll-contain">
         <div className="relative w-full">
           <div className={`${isSidebarOpen ? "block" : "hidden"}`}>
             <DesktopSideMenu />
@@ -33,8 +33,11 @@ export default function DesktopLayout() {
       </aside>
 
       {/* Main Content */}
-      <main className="p-12 h-full overflow-x-hidden overflow-y-scroll overscroll-contain">
-        <Outlet />
+      <main className="flex justify-center dark:ink-bg-dark-50 w-full p-12 h-full overflow-x-hidden overflow-y-scroll overscroll-contain">
+        <div className="w-[80%]">
+          <Outlet />
+          <div className="h-20"></div>
+        </div>
       </main>
     </div>
   );

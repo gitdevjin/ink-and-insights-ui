@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ActivityComment from "./ActivityComment";
-import ActivityLikes from "./ActivityLikes";
+import ActivityLikedPosts from "./ActivityLikedPosts";
 import ActivityPost from "./ActivityPost";
 
 export default function Activity() {
@@ -42,7 +42,7 @@ export default function Activity() {
       )}
       {tap == "likes" && (
         <div>
-          <ActivityLikes />
+          <ActivityLikedPosts />
         </div>
       )}
     </div>
