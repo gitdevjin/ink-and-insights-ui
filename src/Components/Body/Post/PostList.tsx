@@ -8,7 +8,6 @@ import {
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
 import LoadingPage from "../../Error/LoadingPage";
-import { FaRegCommentAlt } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -136,9 +135,11 @@ export default function PostList() {
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="m-2 text-[#2b6cb0] font-bold">{subCategory.name}</h1>
+      <h1 className="m-2 ink-text-dark-100 dark:ink-text-dark-50 font-bold">
+        {subCategory.name}
+      </h1>
       <div className="flex justify-between m-3">
-        <div className="flex items-center">total posts: {totalPosts}</div>
+        <div className="flex items-center">Total Posts: {totalPosts}</div>
         <div
           className="flex items-center justify-center h-9 w-24 font-bold text-white basic-button"
           onClick={() => navigate(`/post/write/${subCategoryId}`)}
@@ -146,58 +147,50 @@ export default function PostList() {
           New Post
         </div>
       </div>
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-4">
+        {posts.map((post) => (
+          <div
+            key={post.id}
+            className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700"
+            onClick={() => {
+              if (user?.userId) {
+                navigate(`/post/read/${post.id}?page=${currentPage}`);
+              } else {
+                navigate("/login");
+              }
+            }}
+          >
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              {post.title}
+            </h2>
 
-      <table className="min-w-full border-collapse bg-white shadow-md rounded-lg">
-        <thead>
-          <tr className="bg-blue-100 text-gray-700 uppercase text-sm tracking-wider">
-            <th className="w-[8%] py-3 px-4 text-center">ID</th>
-            <th className="w-[55%] py-3 px-4 text-left">Title</th>
-            <th className="w-[8%] py-3 px-4 text-center">Writer</th>
-            <th className="w-[8%] py-3 px-4 text-center">Date</th>
-            <th className="w-[7%] py-3 px-4 text-center">Views</th>
-            <th className="w-[6%] py-3 px-4 text-center">Likes</th>
-            <th className="w-[4%] py-3 px-4 text-center">
-              <FaRegCommentAlt className="flex justify-center items-center m-auto" />
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {posts.map((post) => (
-            <tr
-              key={post.id}
-              className="border-b bg-gray-100 border-gray-200 hover:bg-gray-50 cursor-pointer transition-colors duration-200"
-              onClick={() => {
-                if (user?.userId) {
-                  navigate(`/post/read/${post.id}?page=${currentPage}`);
-                } else {
-                  navigate("/login");
-                }
-              }}
-            >
-              <td className="w-[8%] py-4 px-4 text-gray-800 text-center">
-                {post.id}
-              </td>
-              <td className="w-[55%] py-4 px-4 text-gray-800">{post.title}</td>
-              <td className="w-[8%] py-4 px-4 text-gray-600 text-center">
-                {post.user.profile?.nickname}
-              </td>
-              <td className="w-[8%] py-4 px-4 text-gray-600 text-center">
-                {formatDate(post.createdAt)}
-              </td>
-              <td className="w-[7%] py-4 px-4 text-gray-600 text-center">
-                {post.view}
-              </td>
-              <td className="w-[6%] py-4 px-4 text-center">{post.likeCount}</td>
-              <td className="w-[4%] py-4 px-4 text-center">
-                {post.commentCount}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 flex flex-wrap gap-2">
+              <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                🧑 {post.user.profile?.nickname}
+              </span>
+              <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                📅 {formatDate(post.createdAt)}
+              </span>
+              <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                👁 {post.view}
+              </span>
+              <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                ❤️ {post.likeCount}
+              </span>
+              <span className="bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                💬 {post.commentCount}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="flex flex-row items-center justify-center text-xl gap-2">
         <button
-          className="m-1 text-blue-600 text-2xl cursor-pointer hover:bg-[#e1f1fc]/50"
+          className={`px-2 py-1 rounded-md text-xl ${
+            currentPage === 1
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400 cursor-not-allowed"
+              : "text-blue-600 dark:bg-gray-700 hover:bg-[#e1f1fc]/50 cursor-pointer"
+          } transition-colors duration-200`}
           onClick={handlePreviousPage}
           disabled={currentPage === 1}
         >
@@ -209,7 +202,11 @@ export default function PostList() {
           <span>{totalPages}</span>
         </span>
         <button
-          className="m-1 text-blue-600 text-2xl cursor-pointer hover:bg-[#e1f1fc]/50"
+          className={`px-2 py-1 rounded-md text-xl  ${
+            currentPage >= totalPages
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400 cursor-not-allowed"
+              : " text-blue-600 dark:bg-gray-700 hover:bg-[#e1f1fc]/50 cursor-pointer"
+          } transition-colors duration-200`}
           onClick={handleNextPage}
           disabled={currentPage === totalPages}
         >

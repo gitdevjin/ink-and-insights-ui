@@ -7,7 +7,11 @@ import { Link } from "react-router-dom";
 import DesktopUserMenu from "./DesktopUserMenu";
 import quill from "/quill.png";
 
-export default function NavBar() {
+interface Props {
+  setIsMobileSideMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function NavBar({ setIsMobileSideMenuOpen }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
@@ -58,11 +62,14 @@ export default function NavBar() {
   return (
     <div id="navbar" className="fixed flex flex-col top-0 w-full z-10">
       {/* Navbar */}
-      <nav className="flex justify-center bg-white dark:ink-bg-dark-100 w-full border-b border-gray-400 h-12 text-[#2b6cb0]">
+      <nav className="flex justify-center bg-white dark:ink-bg-dark-100 w-full border-b border-gray-400 dark:border-gray-600 h-12 ink-text-dark-100 dark:ink-text-dark-50">
         <div className="flex items-center justify-between relative h-full w-full px-4 md:px-8">
           {/* Left Section - Logo */}
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 sm:hidden">
+            <div
+              onClick={() => setIsMobileSideMenuOpen((prev) => !prev)}
+              className="w-9 h-9 sm:hidden"
+            >
               <GiHamburgerMenu className="w-full h-full aspect-square" />
             </div>
             <Link to="/" className="flex items-center">

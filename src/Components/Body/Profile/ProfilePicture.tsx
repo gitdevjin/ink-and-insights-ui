@@ -149,18 +149,18 @@ const ProfilePicture: React.FC = () => {
       {isLoading && <p className="text-blue-600">Loading...</p>}
       {error && <p className="text-red-600 mb-4">{error}</p>}
       {success && <p className="text-green-600 mb-4">{success}</p>}
-      <label className="block text-lg font-semibold text-gray-700">
+      <label className="block text-lg font-semibold text-gray-700 dark:text-gray-300">
         Profile Image
       </label>
       <div className="relative mb-4">
         <img
           src={imagePreview || "/profile.png"}
           alt="Profile preview"
-          className="mt-2 w-52 h-52 rounded-full object-cover border border-gray-300"
+          className="mt-2 w-52 h-52 rounded-full object-cover border border-gray-300 dark:border-gray-700"
         />
         <label
           htmlFor="imageUpload"
-          className="absolute bottom-0 left-2 flex flex-row justify-center items-center w-[20%] cursor-pointer bg-gray-200 hover:bg-blue-100 file:mr-4 py-1.5 px-1 rounded-md text-md text-center"
+          className="absolute bottom-0 left-2 flex flex-row justify-center items-center w-[22%] cursor-pointer bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-gray-200 dark:border-1 dark:border-gray-400 hover:bg-blue-100 file:mr-4 py-1.5 px-1 rounded-md text-md text-center"
         >
           <FaPencilAlt className="" />
           <span> &nbsp; edit </span>

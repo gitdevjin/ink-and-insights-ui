@@ -117,8 +117,11 @@ export default function Profile() {
 
   return (
     <div className="w-full py-2 px-6 rounded-lg">
-      <div className="text-4xl font-bold mb-4">Public Profile</div>
-      <div className="flex flex-col-reverse sm:flex-row w-full gap-1 sm:gap-2">
+      <div className="text-4xl mb-4 ink-text-dark-100 dark:ink-text-dark-50 font-bold">
+        Public Profile
+      </div>
+      <hr className="sm:mb-4 dark:text-gray-500 text-gray-400" />
+      <div className="flex flex-col-reverse sm:flex-row w-full gap-1 sm:gap-2 md:gap-4 lg:gap-8 ">
         <div className="w-full sm:mr-10">
           {isLoading && <p className="text-blue-600">Loading...</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -127,7 +130,7 @@ export default function Profile() {
             <div>
               <label
                 htmlFor="displayName"
-                className="block text-md font-semibold text-gray-700"
+                className="block text-md font-semibold text-gray-700 dark:text-gray-300"
               >
                 Display Name *
               </label>
@@ -137,7 +140,7 @@ export default function Profile() {
                 type="text"
                 value={formData.nickname}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
                 required
                 aria-required="true"
               />
@@ -145,7 +148,7 @@ export default function Profile() {
             <div>
               <label
                 htmlFor="firstName"
-                className="block ttext-md font-semibold text-gray-700"
+                className="block ttext-md font-semibold text-gray-700 dark:text-gray-300"
               >
                 First Name
               </label>
@@ -155,13 +158,13 @@ export default function Profile() {
                 type="text"
                 value={formData.firstName}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
               <label
                 htmlFor="familyName"
-                className="block text-md font-semibold text-gray-700"
+                className="block text-md font-semibold text-gray-700  dark:text-gray-300"
               >
                 Family Name
               </label>
@@ -171,13 +174,13 @@ export default function Profile() {
                 type="text"
                 value={formData.familyName}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
               <label
                 htmlFor="dob"
-                className="block text-md font-semibold text-gray-700"
+                className="block text-md font-semibold text-gray-700 dark:text-gray-300"
               >
                 Date of Birth
               </label>
@@ -187,13 +190,13 @@ export default function Profile() {
                 type="date"
                 value={formData.dob ? formData.dob.substring(0, 10) : ""}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border bg-gray-200 border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border bg-gray-200 dark:bg-gray-400 border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
               <label
                 htmlFor="bio"
-                className="block text-md font-semibold text-gray-700"
+                className="block text-md font-semibold text-gray-700  dark:text-gray-300"
               >
                 Bio
               </label>
@@ -203,13 +206,13 @@ export default function Profile() {
                 value={formData.bio}
                 onChange={handleChange}
                 rows={4}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div>
               <label
                 htmlFor="location"
-                className="block text-md font-semibold text-gray-700"
+                className="block text-md font-semibold text-gray-700  dark:text-gray-300"
               >
                 Location
               </label>
@@ -219,7 +222,7 @@ export default function Profile() {
                 type="text"
                 value={formData.location}
                 onChange={handleChange}
-                className="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="mt-1 block w-full p-2 border border-gray-300 dark:border-gray-500 dark:text-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div> ID: {id}</div>
@@ -234,7 +237,7 @@ export default function Profile() {
             </button>
           </form>
         </div>
-        <div className="w-full">
+        <div className="w-full pl-2">
           <ProfilePicture />
         </div>
       </div>

@@ -5,6 +5,7 @@ import MobileLayout from "./MobileLayout";
 
 export default function Layout() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 640);
+  const [isMobileSideMenuOpen, setIsMobileSideMenuOpen] = useState(true);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
@@ -13,12 +14,13 @@ export default function Layout() {
   }, []);
 
   return (
-    <div
-      id="layout-index"
-      className="h-screen flex flex-col pt-12 dark:ink-bg-dark-50"
-    >
-      <NavBar />
-      {isMobile ? <MobileLayout /> : <DesktopLayout />}
+    <div id="layout-index" className="flex flex-col pt-12 dark:ink-bg-dark-50">
+      <NavBar setIsMobileSideMenuOpen={setIsMobileSideMenuOpen} />
+      {isMobile ? (
+        <MobileLayout isMobileSideMenuOpen={isMobileSideMenuOpen} />
+      ) : (
+        <DesktopLayout />
+      )}
     </div>
   );
 }

@@ -86,7 +86,7 @@ export default function ActivityComment() {
         comments.map((comment) => (
           <div
             key={`${comment.id}-${comment.createdAt}`}
-            className="mb-2 p-4 border border-gray-200 rounded-lg bg-white shadow-sm"
+            className="mb-2 p-4 border border-gray-200 dark:border-gray-500 rounded-lg bg-white dark:bg-gray-700 shadow-sm"
           >
             <div
               onClick={() => navigate(`/post/read/${comment.post.id}`)}
@@ -94,14 +94,14 @@ export default function ActivityComment() {
             >
               <div className="flex flex-col">
                 <div>
-                  <span className="font-semibold text-gray-800">
+                  <span className="font-semibold text-gray-800 dark:text-gray-300">
                     {comment.user.profile?.nickname}
                   </span>
-                  <span className="ml-2 text-sm text-gray-500">
+                  <span className="ml-2 text-sm text-gray-500 dark:text-gray-300">
                     {new Date(comment.createdAt).toLocaleString()}
                   </span>
                 </div>
-                <div className="p-1">{comment.content}</div>
+                <div className="p-1 dark:text-gray-200">{comment.content}</div>
                 <div className="text-gray-400">
                   Post Title: {comment.post.title}
                 </div>
@@ -118,22 +118,22 @@ export default function ActivityComment() {
           disabled={currentPage === 1}
           className={`px-2 py-1 rounded-md text-xl ${
             currentPage === 1
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "text-[#2b6cb0] hover:bg-[#e1f1fc]/50 cursor-pointer"
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400 cursor-not-allowed"
+              : "text-blue-600 dark:bg-gray-700 hover:bg-[#e1f1fc]/50 cursor-pointer"
           } transition-colors duration-200`}
         >
           <MdOutlineKeyboardDoubleArrowLeft />
         </button>
-        <div className="text-gray-600 flex flex-row gap-2 justify-center items-center">
+        <div className="text-gray-600 dark:text-gray-300 flex flex-row gap-2 justify-center items-center">
           <span>{currentPage}</span> <span>of</span> <span>{totalPages}</span>
         </div>
         <button
           onClick={handleNextCommentPage}
           disabled={currentPage >= totalPages}
-          className={`px-2 py-1 rounded-md text-xl ${
+          className={`px-2 py-1 rounded-md text-xl  ${
             currentPage >= totalPages
-              ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-              : "text-[#2b6cb0] hover:bg-[#e1f1fc]/50 cursor-pointer"
+              ? "bg-gray-100 dark:bg-gray-500 text-gray-400 cursor-not-allowed"
+              : " text-blue-600 dark:bg-gray-700 hover:bg-[#e1f1fc]/50 cursor-pointer"
           } transition-colors duration-200`}
         >
           <MdOutlineKeyboardDoubleArrowRight />
