@@ -20,7 +20,7 @@ export default function MobileSideMenu() {
   };
 
   return (
-    <div className="h-full flex flex-col sm:hidden top-0 p-4 dark:ink-bg-dark-100 overflow-auto">
+    <div className="h-full flex flex-col sm:hidden top-0 p-4 bg-gray-50 dark:ink-bg-dark-100 overflow-auto">
       <div className="">
         <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 rounded-lg">
           CATEGORIES
@@ -99,6 +99,33 @@ export default function MobileSideMenu() {
       >
         My Activity
       </div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
+      <div className="text-gray-800">Settings</div>
       <div className="text-gray-800">Settings</div>
       <div className="text-gray-800">Settings</div>
       <div className="text-gray-800">Settings</div>

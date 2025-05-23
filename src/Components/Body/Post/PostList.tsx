@@ -151,7 +151,7 @@ export default function PostList() {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-700"
+            className="bg-white dark:bg-gray-900 p-5 rounded-xl shadow hover:shadow-lg dark:shadow-gray-500 transition-all duration-300 cursor-pointer border border-gray-200 dark:border-gray-500"
             onClick={() => {
               if (user?.userId) {
                 navigate(`/post/read/${post.id}?page=${currentPage}`);
