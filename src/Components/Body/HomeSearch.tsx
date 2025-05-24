@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, useSearchParams } from "react-router-dom";
-import { useCategory } from "../../../hooks/use-category";
-import { useUser } from "../../../hooks/use-user";
-import { formatDate } from "../../../util/uitilFunc";
+import { useCategory } from "../../hooks/use-category";
+import { useUser } from "../../hooks/use-user";
+import { formatDate } from "../../util/uitilFunc";
 import {
   MdOutlineKeyboardDoubleArrowRight,
   MdOutlineKeyboardDoubleArrowLeft,
 } from "react-icons/md";
-import LoadingPage from "../../Error/LoadingPage";
+import LoadingPage from "../Error/LoadingPage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 interface Post {
   id: number;
   title: string;
-  userid: string;
+  userId: string;
   view: number;
   createdAt: string;
   updatedAt: string;
@@ -25,12 +25,15 @@ interface Post {
   };
   likeCount: number;
   commentCount: number;
+  subCategory: {
+    name: string;
+  };
 }
 
-export default function PostList() {
+export default function HomeSearch() {
   const navigate = useNavigate();
   const { user } = useUser();
-  const { subCategoryId } = useParams<{ subCategoryId: string }>();
+  const { keyword } = useParams<{ keyword: string }>();
   const { categories } = useCategory();
   const [posts, setPosts] = useState<Post[]>([]);
 
@@ -44,6 +47,7 @@ export default function PostList() {
   const [totalPosts, setTotalPosts] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(pageParamNum);
+  console.log(`search result is :${keyword}`);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -56,32 +60,16 @@ export default function PostList() {
       setCurrentPage(currentPage - 1);
     }
   };
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [subCategoryId]);
+  }, [keyword]);
 
   // All hooks at the top
   useEffect(() => {
     const fetchData = async () => {
-      if (!subCategoryId) {
-        setError("No subcategory ID provided");
-        setLoading(false);
-        return;
-      }
-
-      const subCategoryIdNum = Number(subCategoryId);
-      if (isNaN(subCategoryIdNum)) {
-        setError("Invalid subcategory ID");
-        setLoading(false);
-        return;
-      }
-
-      const subCategory = categories
-        .flatMap((cat) => cat.subCategories)
-        .find((sub) => sub.id === subCategoryIdNum);
-
-      if (!subCategory) {
-        setError("Subcategory not found");
+      if (!keyword) {
+        setError("No Search Keyword provided");
         setLoading(false);
         return;
       }
@@ -91,7 +79,7 @@ export default function PostList() {
         setError(null);
 
         const response = await fetch(
-          `${API_URL}/post/list/${subCategoryId}?page=${currentPage}`,
+          `${API_URL}/home/search/${keyword}?page=${currentPage}&max=15`,
           {
             method: "GET",
             headers: {
@@ -118,7 +106,7 @@ export default function PostList() {
     };
 
     fetchData();
-  }, [subCategoryId, categories, currentPage]); // Include categories if it can change
+  }, [keyword, categories, currentPage]); // Include categories if it can change
 
   // Conditional rendering after hooks
   if (loading)
@@ -127,27 +115,21 @@ export default function PostList() {
         <LoadingPage />
       </div>
     );
+
   if (error) return <div>{error}</div>;
-
-  const subCategory = categories
-    .flatMap((cat) => cat.subCategories)
-    .find((sub) => sub.id === Number(subCategoryId));
-
-  // This should already be handled in useEffect, but kept for UI consistency
-  if (!subCategory) return <div>Subcategory not found</div>;
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="m-2 ink-text-dark-100 dark:ink-text-dark-50 font-bold">
-        {subCategory.name}
+      <h1 className="m-2 text-2xl text-gray-700 dark:text-gray-200 font-bold">
+        Search result for "
+        <span className="ink-text-dark-100 dark:ink-text-dark-50">
+          {keyword}
+        </span>
+        "
       </h1>
       <div className="flex justify-between m-3">
-        <div className="flex items-center">Total Posts: {totalPosts}</div>
-        <div
-          className="flex items-center justify-center h-9 w-24 font-bold text-white basic-button"
-          onClick={() => navigate(`/post/write/${subCategoryId}`)}
-        >
-          New Post
+        <div className="flex items-center dark:text-gray-300">
+          Total Posts: {totalPosts}
         </div>
       </div>
       <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-4">

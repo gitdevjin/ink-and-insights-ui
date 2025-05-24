@@ -3,7 +3,7 @@ import { MdAccountCircle } from "react-icons/md";
 import { FaRegMoon, FaSearch } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { LuSun } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DesktopUserMenu from "./DesktopUserMenu";
 import quill from "/quill.png";
 
@@ -13,7 +13,10 @@ interface Props {
 
 export default function NavBar({ setIsMobileSideMenuOpen }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const navigate = useNavigate();
 
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") return "light"; // SSR safe
@@ -41,11 +44,18 @@ export default function NavBar({ setIsMobileSideMenuOpen }: Props) {
 
   const handleSearch = () => {
     console.log("Search Clicked");
+    navigate(`/home/search/${searchKeyword}`);
   };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        iconRef.current &&
+        !iconRef.current.contains(target)
+      ) {
         setIsUserMenuOpen(false);
       }
     }
@@ -86,6 +96,8 @@ export default function NavBar({ setIsMobileSideMenuOpen }: Props) {
             <input
               type="text"
               placeholder="Search..."
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
               className="w-full px-4 py-1 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             <div
@@ -111,6 +123,7 @@ export default function NavBar({ setIsMobileSideMenuOpen }: Props) {
               {/**/}
             </div>
             <div
+              ref={iconRef}
               onClick={() => setIsUserMenuOpen((prev: boolean) => !prev)}
               className="relative flex items-center rounded-lg justify-center w-9 h-9 hover:bg-[#e1f1fc]/50 text-gray-400"
             >

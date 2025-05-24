@@ -19,6 +19,9 @@ interface Post {
   };
   likeCount: number;
   commentCount: number;
+  subCategory: {
+    name: string;
+  };
 }
 
 export default function Home() {
@@ -29,19 +32,22 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${API_URL}/post/list/top`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
+        const response = await fetch(
+          `${API_URL}/home/post/tops?postNum=8&standard=view`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error("Failed to fetch posts");
         }
 
         const res = await response.json();
-        console.log(res);
+        console.log(res.posts);
         setPosts(res.posts || []);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -53,11 +59,11 @@ export default function Home() {
 
   return (
     <div className="flex flex-col w-full px-4 py-6 max-w-4xl mx-auto">
-      <h1 className="text-4xl font-bold mb-2">
+      <h1 className="text-5xl font-bold mb-2 dark:text-gray-200">
         Welcome, {user ? user.name : "Guest"} 👋
       </h1>
 
-      <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
+      <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
         A space for sparking and sharing your ideas and insights.
       </p>
 
@@ -66,11 +72,11 @@ export default function Home() {
           <h2 className="text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
             🔥 Top Posts
           </h2>
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2">
             {posts.map((post: Post) => (
               <div
                 key={post.id}
-                className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-md transition cursor-pointer"
+                className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-500 p-4 rounded-lg shadow hover:shadow-md dark:hover:shadow-gray-400 transition cursor-pointer"
                 onClick={() => navigate(`/post/read/${post.id}`)}
               >
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white truncate">
@@ -84,6 +90,7 @@ export default function Home() {
                   <span>👁️ {post.view}</span>
                   <span>👍 {post.likeCount}</span>
                   <span>💬 {post.commentCount}</span>
+                  <span>{post.subCategory.name}</span>
                 </div>
               </div>
             ))}
@@ -92,7 +99,9 @@ export default function Home() {
       </div>
 
       <section className="py-8">
-        <h2 className="text-xl font-semibold mb-4">Browse Categories</h2>
+        <h2 className="text-2xl font-semibold mb-4 dark:text-gray-100">
+          📎 Browse Categories
+        </h2>
         <div className="flex flex-wrap gap-4">
           {categories.flatMap((category) =>
             category.subCategories.map((sub) => (
@@ -109,7 +118,7 @@ export default function Home() {
       </section>
       <div className="h-[calc(10vh)]" />
       <section className="text-center py-10 bg-blue-50 dark:ink-bg-dark-100 rounded-lg mt-12">
-        <h2 className="text-2xl font-bold mb-2">
+        <h2 className="text-2xl font-bold mb-2 dark:text-gray-200">
           Ready to share your thoughts?
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-4">
@@ -121,7 +130,9 @@ export default function Home() {
       </section>
       <div className="h-[calc(10vh)]" />
       <section className="py-12 max-w-2xl mx-auto text-center">
-        <h2 className="text-xl font-bold mb-2">Our Mission</h2>
+        <h2 className="text-xl font-bold mb-2 dark:text-gray-300">
+          Our Mission
+        </h2>
         <p className="text-gray-700 dark:text-gray-300">
           We aim to build a community where ideas are exchanged freely and
           creators thrive through collaboration.

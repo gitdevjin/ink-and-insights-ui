@@ -11,6 +11,7 @@ import ReadPostOne from "./Components/Body/Post/ReadPostOne";
 import Profile from "./Components/Body/Profile";
 import Activity from "./Components/Body/Activity";
 import Login from "./Components/Login";
+import HomeSearch from "./Components/Body/HomeSearch";
 
 const routes: RouteObject[] = [
   {
@@ -26,6 +27,7 @@ const routes: RouteObject[] = [
       { path: "post/write/:subCategoryId", element: <WritePost /> },
       { path: "user/profile/:id", element: <Profile /> },
       { path: "user/activity", element: <Activity /> },
+      { path: "home/search/:keyword", element: <HomeSearch /> },
       { path: "login", element: <Login /> },
     ],
   },
