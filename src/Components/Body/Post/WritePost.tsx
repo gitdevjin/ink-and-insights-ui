@@ -75,13 +75,13 @@ export default function WritePost() {
 
   return (
     <div>
-      <h1 className="mb-4">{subCategory.name}</h1>
+      <h1 className="mb-4 dark:text-gray-200">{subCategory.name}</h1>
       <input
         type="text"
         placeholder="Enter title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="p-2 w-full rounded-md focus:outline-none shadow-gray-300 shadow-md"
+        className="font-semibold pl-4 p-2 w-full rounded-md focus:outline-none shadow-gray-300 dark:shadow-gray-500 dark:text-gray-200 shadow-md bg-gray-100 dark:bg-gray-700"
       />
       <RichTextEditor
         setFileMappings={setFileMappings}

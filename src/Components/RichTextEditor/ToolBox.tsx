@@ -12,8 +12,11 @@ import {
   FaListOl,
   FaImage,
 } from "react-icons/fa";
+import { IoIosColorPalette } from "react-icons/io";
 import { Editor } from "@tiptap/react";
 import ToolButton from "./ToolButton";
+import ColorButton from "./ColorButton";
+import { useState, useRef, useEffect } from "react";
 
 interface Props {
   editor: Editor | null;
@@ -21,6 +24,10 @@ interface Props {
 }
 
 const tools = [
+  {
+    task: "color",
+    icon: <IoIosColorPalette size={20} />,
+  },
   {
     task: "bold",
     icon: <FaBold size={20} />,
@@ -73,9 +80,36 @@ const tools = [
 
 type TaskType = (typeof tools)[number]["task"];
 export default function ToolBox({ editor, addImage }: Props) {
+  const [showPalette, setShowPalette] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  const togglePalette = () => setShowPalette((prev) => !prev);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      // If clicking outside the palette div, hide it
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setShowPalette(false);
+      }
+    }
+
+    if (showPalette) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    // Cleanup listener on unmount or when showPalette changes
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showPalette]);
+
   const handleOnClick = (task: TaskType) => {
     if (!editor) return;
     switch (task) {
+      case "color":
+        return togglePalette();
       case "bold":
         return editor.chain().focus().toggleBold().run();
       case "italic":
@@ -138,7 +172,12 @@ export default function ToolBox({ editor, addImage }: Props) {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <div className="relative flex flex-row flex-wrap" ref={ref}>
+        {showPalette && (
+          <div className="absolute mt-2 z-10">
+            <ColorButton editor={editor} />
+          </div>
+        )}
         {tools.map(({ task, icon }) => {
           return (
             <div className="flex items-center justify-center p-1 m-1 border-1">

@@ -14,6 +14,8 @@ import { MdAccountCircle } from "react-icons/md";
 import Comment from "../Comment";
 import { useUser } from "../../../hooks/use-user";
 import LoadingPage from "../../Error/LoadingPage";
+import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -63,7 +65,12 @@ export default function ReadPostOne() {
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
 
   const editor = useEditor({
-    extensions: [StarterKit, Image.configure({ inline: true })],
+    extensions: [
+      StarterKit,
+      Image.configure({ inline: true }),
+      TextStyle,
+      Color,
+    ],
     content: "",
     editable: false,
   });
@@ -175,7 +182,7 @@ export default function ReadPostOne() {
     <div>
       <div className="flex flex-row justify-between">
         <div className="flex flex-col ">
-          <div className="text-6xl">{post.title}</div>
+          <div className="text-6xl dark:text-gray-200">{post.title}</div>
         </div>
         <div>
           <div className="flex justify-end text-gray-600">

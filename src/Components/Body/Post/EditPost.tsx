@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import RichTextEditor from "../../RichTextEditor";
 import { Editor } from "@tiptap/react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -29,6 +30,7 @@ interface Image {
 
 export default function EditPost() {
   console.log("Edit Post Called");
+  const navigate = useNavigate();
   const { id } = useParams();
   const [fileMappings, setFileMappings] = useState<
     { blobUrl: string; file: File }[]
@@ -124,7 +126,8 @@ export default function EditPost() {
       editor.commands.clearContent();
       setFileMappings([]);
       setTitle("");
-      console.log(res.message);
+      console.log(res);
+      navigate(`/post/read/${res.post.id}`);
     } catch (error) {
       console.error("Error saving post:", error);
     }
@@ -141,14 +144,16 @@ export default function EditPost() {
         placeholder="Enter title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        className="border rounded p-2 w-full mb-2"
+        className="font-semibold dark:text-gray-200 dark:border-gray-800 border rounded p-2 w-full mb-2"
       />
       <RichTextEditor
         setFileMappings={setFileMappings}
         onEditorChange={setEditor}
       />
       <form onSubmit={handleSubmit}>
-        <button type="submit">Submit</button>
+        <button className="basic-button h-10 w-24" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

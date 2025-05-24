@@ -5,6 +5,8 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import Image from "@tiptap/extension-image";
 import ToolBox from "./ToolBox";
+import TextStyle from "@tiptap/extension-text-style";
+import { Color } from "@tiptap/extension-color";
 
 interface FileMapping {
   blobUrl: string;
@@ -31,6 +33,8 @@ export default function RichTextEditor({
       TextAlign.configure({
         types: ["paragraph"],
       }),
+      TextStyle,
+      Color,
     ],
     content: "", // Initial content
   });
@@ -59,16 +63,17 @@ export default function RichTextEditor({
   }, [editor]);
 
   return (
-    <div className="my-5 ">
+    <div className="my-5 space-y-3">
       <ToolBox editor={editor} addImage={addImage} />
+
       <div
         id="rich-text-content"
-        className="my-1 h-screen rounded-lg focus:outline-none shadow-gray-300 shadow-lg"
+        className="rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-100 dark:bg-gray-700 shadow-md transition"
       >
         <EditorContent
           editor={editor}
-          className="h-screen focus:outline-none"
-          placeholder="Enter Content"
+          className="h-[60vh] p-4 overflow-y-auto prose prose-sm sm:prose lg:prose-lg dark:prose-invert focus:outline-none"
+          placeholder="Enter content..."
         />
       </div>
     </div>
