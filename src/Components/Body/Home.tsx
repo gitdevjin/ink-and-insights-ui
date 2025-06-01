@@ -124,7 +124,10 @@ export default function Home() {
         <p className="text-gray-600 dark:text-gray-300 mb-4">
           Start your first post and contribute to the community!
         </p>
-        <button className="ink-bg-button-50 text-white px-6 py-2 rounded hover:ink-bg-button-100 transition cursor-pointer">
+        <button
+          onClick={() => navigate("/home/post/write")}
+          className="ink-bg-button-50 text-white px-6 py-2 rounded hover:ink-bg-button-100 transition cursor-pointer"
+        >
           Create Post
         </button>
       </section>

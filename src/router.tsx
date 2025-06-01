@@ -12,6 +12,7 @@ import Profile from "./Components/Body/Profile";
 import Activity from "./Components/Body/Activity";
 import Login from "./Components/Login";
 import HomeSearch from "./Components/Body/HomeSearch";
+import WritePostCustom from "./Components/Body/Post/WritePostCustom";
 
 const routes: RouteObject[] = [
   {
@@ -28,6 +29,8 @@ const routes: RouteObject[] = [
       { path: "user/profile/:id", element: <Profile /> },
       { path: "user/activity", element: <Activity /> },
       { path: "home/search/:keyword", element: <HomeSearch /> },
+      { path: "home/post/write", element: <WritePostCustom /> },
+
       { path: "login", element: <Login /> },
     ],
   },
