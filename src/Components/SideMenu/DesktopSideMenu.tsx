@@ -20,7 +20,7 @@ export default function DesktopSideMenu() {
   };
 
   return (
-    <div className="h-screen hidden sm:flex top-0 sm:flex-col ">
+    <div className="h-screen hidden sm:flex top-0 sm:flex-col">
       <div>
         <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 rounded-lg">
           CATEGORIES
@@ -95,31 +95,40 @@ export default function DesktopSideMenu() {
             navigate("/login");
           }
         }}
-        className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg "
+        className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg"
       >
         My Activity
       </div>
-      <div className="text-gray-800">Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
-      <div>Settings</div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Settings
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 1
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 2
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 3
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 4
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 5
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 6
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 7
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 8
+      </div>
+      <div className="text-md p-1 my-0.5 font-semibold text-gray-700 dark:text-gray-400 hover:text-[#2b6cb0] hover:border-l-blue-300 hover:bg-gray-200 dark:hover:bg-gray-400 cursor-pointer rounded-lg">
+        Mock Menu 9
+      </div>
     </div>
   );
 }
